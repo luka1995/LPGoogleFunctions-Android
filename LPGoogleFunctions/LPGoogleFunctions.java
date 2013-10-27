@@ -43,13 +43,8 @@ import com.loopj.android.http.*;
 import LPGoogleFunctions.LPDirections.*;
 import LPGoogleFunctions.LPStep.*;
 import LPGoogleFunctions.LPPrediction.*;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioTrack;
-import android.media.MediaPlayer;
 
 public class LPGoogleFunctions {
 

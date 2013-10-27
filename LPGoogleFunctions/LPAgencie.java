@@ -20,7 +20,7 @@ public class LPAgencie {
 	
 	public LPAgencie()
 	{
-		
+
 	}
 	
 	public LPAgencie(JSONObject jsonObject) 
