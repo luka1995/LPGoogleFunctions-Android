@@ -71,18 +71,17 @@ public class LPPlaceSearchResults {
 	
 	public LPPlaceSearchResults clone()
 	{
+		LPPlaceSearchResults object = new LPPlaceSearchResults();
+    	
         try {
-        	LPPlaceSearchResults object = new LPPlaceSearchResults();
-        	
         	object.results = this.results;
         	object.statusCode = this.statusCode;
         	object.htmlAttributions = this.htmlAttributions;
         	object.nextPageToken = this.nextPageToken;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
 	}
 }

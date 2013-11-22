@@ -48,17 +48,42 @@ public class LPEvent {
 	
 	public LPEvent clone()
 	{
+		LPEvent object = new LPEvent();
+    	
         try {
-        	LPEvent object = new LPEvent();
-        	
         	object.eventID = this.eventID;
         	object.summary = this.summary;
         	object.URL = this.URL;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.eventID != null)
+			{
+				object.put("event_id", this.eventID);
+			}
+			
+			if(this.summary != null)
+			{
+				object.put("summary", this.summary);
+			}
+			
+			if(this.URL != null)
+			{
+				object.put("url", this.URL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

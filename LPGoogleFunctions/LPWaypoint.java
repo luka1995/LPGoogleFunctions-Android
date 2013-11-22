@@ -48,17 +48,35 @@ public class LPWaypoint {
 	
 	public LPWaypoint clone()
 	{
+		LPWaypoint object = new LPWaypoint();
+    	
         try {
-        	LPWaypoint object = new LPWaypoint();
-        	
         	object.location = this.location;
         	object.stepIndex = this.stepIndex;
         	object.stepInterpolation = this.stepInterpolation;
-        	
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.location != null)
+			{
+				object.put("location", this.location.getJSONObject());
+			}
+			
+			object.put("step_index", this.stepIndex);
+			object.put("stepInterpolation", this.stepInterpolation);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

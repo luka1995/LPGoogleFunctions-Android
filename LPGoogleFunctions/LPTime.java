@@ -6,8 +6,6 @@
 
 package LPGoogleFunctions;
 
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,8 +16,7 @@ public class LPTime {
 	public String text = null;
 	public String timeZone = null;
 	public float value = 0;
-	public Date formattedTime = null;
-	
+
 	// Class
 	
 	public LPTime()
@@ -43,8 +40,6 @@ public class LPTime {
 			if(jsonObject.has("value"))
 			{
 				this.value = (float)jsonObject.getDouble("value");
-				
-				this.formattedTime = new Date((long)this.value);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -53,18 +48,39 @@ public class LPTime {
 	
 	public LPTime clone()
 	{
+		LPTime object = new LPTime();
+    	
         try {
-        	LPTime object = new LPTime();
-        	
         	object.text = this.text;
         	object.timeZone = this.timeZone;
         	object.value = this.value;
-        	object.formattedTime = this.formattedTime;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.text != null)
+			{
+				object.put("text", this.text);
+			}
+			
+			if(this.timeZone != null)
+			{
+				object.put("time_zone", this.timeZone);
+			}
+			
+			object.put("value", this.value);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

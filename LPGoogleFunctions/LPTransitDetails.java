@@ -72,9 +72,9 @@ public class LPTransitDetails {
 	
 	public LPTransitDetails clone()
 	{
+		LPTransitDetails object = new LPTransitDetails();
+    	
         try {
-        	LPTransitDetails object = new LPTransitDetails();
-        	
         	object.arrivalStop = this.arrivalStop;
         	object.arrivalTime = this.arrivalTime;
         	object.departureStop = this.departureStop;
@@ -82,11 +82,54 @@ public class LPTransitDetails {
         	object.headsign = this.headsign;
         	object.line = this.line;
         	object.numStops = this.numStops;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.arrivalStop != null)
+			{
+				object.put("arrival_stop", this.arrivalStop.getJSONObject());
+			}
+			
+			if(this.arrivalTime != null)
+			{
+				object.put("arrival_time", this.arrivalTime.getJSONObject());
+			}
+			
+			if(this.departureStop != null)
+			{
+				object.put("departure_stop", this.departureStop.getJSONObject());
+			}
+			
+			if(this.departureTime != null)
+			{
+				object.put("departure_time", this.departureTime.getJSONObject());
+			}
+			
+			if(this.headsign != null)
+			{
+				object.put("headsign", this.headsign);
+			}
+			
+			
+			if(this.line != null)
+			{
+				object.put("line", this.line.getJSONObject());
+			}
+			
+			object.put("num_stops", this.numStops);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

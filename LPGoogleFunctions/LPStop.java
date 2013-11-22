@@ -42,16 +42,36 @@ public class LPStop {
 	
 	public LPStop clone()
 	{
+		LPStop object = new LPStop();
+    	
         try {
-        	LPStop object = new LPStop();
-        	
         	object.location = this.location;
         	object.name = this.name;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.location != null)
+			{
+				object.put("location", this.location.getJSONObject());
+			}
+			
+			if(this.name != null)
+			{
+				object.put("name", this.name);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

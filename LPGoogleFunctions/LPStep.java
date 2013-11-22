@@ -18,10 +18,10 @@ public class LPStep {
 	
 	public static enum LPGoogleDirectionsTravelMode
 	{
-		LPGoogleDirectionsTravelModeDriving,
-		LPGoogleDirectionsTravelModeWalking,
-		LPGoogleDirectionsTravelModeBicycling,
-		LPGoogleDirectionsTravelModeTransit
+		driving,
+		walking,
+		bicycling,
+		transit
 	};
 	
 	public String maneuver;
@@ -86,7 +86,7 @@ public class LPStep {
 			{
 				this.startLocation = new LPLocation(jsonObject.getJSONObject("start_location"));
 			}
-			
+
 			if(jsonObject.has("travel_mode"))
 			{
 				this.travelMode = LPStep.getDirectionsTravelModeFromString(jsonObject.getString("travel_mode"));
@@ -115,9 +115,9 @@ public class LPStep {
 	
 	public LPStep clone()
 	{
+		LPStep object = new LPStep();
+    	
         try {
-        	LPStep object = new LPStep();
-        	
         	object.maneuver = this.maneuver;
         	object.distance = this.distance;
         	object.duration = this.duration;
@@ -130,41 +130,104 @@ public class LPStep {
         	object.transitDetails = this.transitDetails;
         	object.isBicikeLJStationStart = this.isBicikeLJStationStart;
         	object.isBicikeLJStationEnd = this.isBicikeLJStationEnd;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.maneuver != null)
+			{
+				object.put("maneuver", this.maneuver);
+			}
+			
+			if(this.distance != null)
+			{
+				object.put("distance", this.distance.getJSONObject());
+			}
+			
+			if(this.duration != null)
+			{
+				object.put("duration", this.duration.getJSONObject());
+			}
+			
+			if(this.endLocation != null)
+			{
+				object.put("end_location", this.endLocation.getJSONObject());
+			}
+			
+			if(this.htmlInstructions != null)
+			{
+				object.put("html_instructions", this.htmlInstructions);
+			}
+			
+			if(this.polyline != null)
+			{
+				object.put("polyline", this.polyline.getJSONObject());
+			}
+			
+			if(this.startLocation != null)
+			{
+				object.put("start_location", this.startLocation.getJSONObject());
+			}
+			
+			if(this.subSteps != null)
+			{
+				JSONArray substepsArray = new JSONArray();
+				for(int i=0; i<this.subSteps.size(); i++)
+				{
+					LPStep step = this.subSteps.get(i);
+					
+					substepsArray.put(step.getJSONObject());
+				}
+				object.put("steps", substepsArray);
+			}
+			
+			if(this.transitDetails != null)
+			{
+				object.put("transit_details", this.transitDetails.getJSONObject());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 	
 	// Functions
 	
 	public static LPGoogleDirectionsTravelMode getDirectionsTravelModeFromString(String string)
 	{
-	    if(string.equals(googleTravelModeDriving) || string.equals(googleTravelModeDriving))
+	    if(string.equalsIgnoreCase(googleTravelModeDriving))
 	    {
-	        return LPGoogleDirectionsTravelMode.LPGoogleDirectionsTravelModeDriving;
-	    } else if(string.equals(googleTravelModeBicycling) || string.equals(googleTravelModeBicycling)) {
-	        return LPGoogleDirectionsTravelMode.LPGoogleDirectionsTravelModeBicycling;
-	    } else if(string.equals(googleTravelModeTransit) || string.equals(googleTravelModeTransit)) {
-	        return LPGoogleDirectionsTravelMode.LPGoogleDirectionsTravelModeTransit;
+	        return LPGoogleDirectionsTravelMode.driving;
+	    } else if(string.equalsIgnoreCase(googleTravelModeBicycling)) {
+	        return LPGoogleDirectionsTravelMode.bicycling;
+	    } else if(string.equalsIgnoreCase(googleTravelModeTransit)) {
+	        return LPGoogleDirectionsTravelMode.transit;
 	    } else {
-	        return LPGoogleDirectionsTravelMode.LPGoogleDirectionsTravelModeWalking;
+	        return LPGoogleDirectionsTravelMode.walking;
 	    }
 	}
 	
 	public static String getDirectionsTravelMode(LPGoogleDirectionsTravelMode travelMode)
 	{
-	    switch (travelMode) {
-        case LPGoogleDirectionsTravelModeDriving:
-            return googleTravelModeDriving;
-        case LPGoogleDirectionsTravelModeBicycling:
-            return googleTravelModeBicycling;
-        case LPGoogleDirectionsTravelModeTransit:
-            return googleTravelModeTransit;
-        default:
-            return googleTravelModeWalking;
+	    switch (travelMode)
+	    {
+        	case driving:
+        		return googleTravelModeDriving;
+        	case bicycling:
+        		return googleTravelModeBicycling;
+        	case transit:
+        		return googleTravelModeTransit;
+        	default:
+        		return googleTravelModeWalking;
 	    }
 	}
 }

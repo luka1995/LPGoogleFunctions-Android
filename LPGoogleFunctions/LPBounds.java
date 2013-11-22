@@ -23,6 +23,12 @@ public class LPBounds {
 		
 	}
 	
+	public LPBounds(LPLocation northeast, LPLocation southwest)
+	{
+		this.northeast = northeast;
+		this.southwest = southwest;
+	}
+	
 	public LPBounds(JSONObject jsonObject) 
 	{
 		try {
@@ -42,16 +48,36 @@ public class LPBounds {
 	
 	public LPBounds clone()
 	{
+		LPBounds object = new LPBounds();
+    	
         try {
-        	LPBounds object = new LPBounds();
-        	
         	object.northeast = this.northeast;
         	object.southwest = this.southwest;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.northeast != null)
+			{
+				object.put("northeast", this.northeast.getJSONObject());
+			}
+			
+			if(this.southwest != null)
+			{
+				object.put("southwest", this.southwest.getJSONObject());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

@@ -43,11 +43,11 @@ public class LPAddressComponent {
 			if(jsonObject.has("types"))
 			{
 				this.types = new ArrayList<String>();
-				JSONArray types = jsonObject.getJSONArray("types");
-				for(int i=0; i<types.length(); i++)
+				JSONArray typesArray = jsonObject.getJSONArray("types");
+				for(int i=0; i<typesArray.length(); i++)
 				{
-					String type = types.getString(i);
-					
+					String type = typesArray.getString(i);
+
 					this.types.add(type);
 				}
 			}
@@ -58,17 +58,49 @@ public class LPAddressComponent {
 	
 	public LPAddressComponent clone()
 	{
+		LPAddressComponent object = new LPAddressComponent();
+    	
         try {
-        	LPAddressComponent object = new LPAddressComponent();
-        	
         	object.longName = this.longName;
         	object.shortName = this.shortName;
         	object.types = this.types;
-        	
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.longName != null)
+			{
+				object.put("long_name", this.longName);
+			}
+			
+			if(this.shortName != null)
+			{
+				object.put("short_name", this.shortName);
+			}
+			
+			if(this.types != null)
+			{
+				JSONArray typesArray = new JSONArray();
+				for(int i=0; i<this.types.size(); i++)
+				{
+					String string = this.types.get(i).toString();
+					
+					typesArray.put(string);
+				}
+				object.put("types", typesArray);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

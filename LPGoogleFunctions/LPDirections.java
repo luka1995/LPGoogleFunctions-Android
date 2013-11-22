@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import LPGoogleFunctions.LPStep.LPGoogleDirectionsTravelMode;
 import LPGoogleFunctions.LPStep.*;
 
 public class LPDirections {
@@ -37,7 +38,7 @@ public class LPDirections {
 		
 	public ArrayList<LPRoute> routes = null;
 	public String statusCode = null;
-	public LPGoogleDirectionsTravelMode requestTravelMode = LPGoogleDirectionsTravelMode.LPGoogleDirectionsTravelModeBicycling;
+	public LPGoogleDirectionsTravelMode requestTravelMode = LPGoogleDirectionsTravelMode.bicycling;
 	
 	// Class
 	
@@ -78,12 +79,41 @@ public class LPDirections {
         	
         	object.routes = this.routes;
         	object.statusCode = this.statusCode;
-
+        	object.requestTravelMode = this.requestTravelMode;
+        	
         	return object;
         } catch (Exception e) {
         	e.printStackTrace();
         	return null;
         }
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.routes != null)
+			{
+				JSONArray routesArray = new JSONArray();
+				for(int i=0; i<this.routes.size(); i++)
+				{
+					JSONObject route = this.routes.get(i).getJSONObject();
+					
+					routesArray.put(route);
+				}
+				object.put("routes", routesArray);
+			}
+			
+			if(this.statusCode != null)
+			{
+				object.put("status", this.statusCode);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 	
 	// Functions

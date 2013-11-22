@@ -118,6 +118,83 @@ public class LPPrediction {
 		}
 	}
 	
+	public LPPrediction clone()
+	{
+		LPPrediction object = new LPPrediction();
+    	
+        try {
+        	object.name = this.name;
+        	object.ID = this.ID;
+        	object.number = this.number;
+        	object.reference = this.reference;
+        	object.types = this.types;
+        	object.terms = this.terms;
+        	object.matchedSubstrings = this.matchedSubstrings;
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        
+        return object;
+	}	
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.name != null)
+			{
+				object.put("name", this.name);
+			}
+			
+			if(this.ID != null)
+			{
+				object.put("id", this.ID);
+			}
+			object.put("number", this.number);
+			
+			if(this.reference != null)
+			{
+				object.put("reference", this.reference);
+			}
+			
+			if(this.types != null)
+			{
+				object.put("types", new JSONArray(this.types));
+			}
+			
+			if(this.matchedSubstrings != null)
+			{
+				JSONArray matchedSubstringsArray = new JSONArray();
+				for(int i=0; i<this.matchedSubstrings.size(); i++)
+				{
+					JSONObject substring = this.matchedSubstrings.get(i).getJSONObject();
+					
+					matchedSubstringsArray.put(substring);
+				}
+				object.put("matched_substrings", matchedSubstringsArray);
+			}
+			
+			if(this.terms != null)
+			{
+				JSONArray termsArray = new JSONArray();
+				for(int i=0; i<this.terms.size(); i++)
+				{
+					JSONObject term = this.terms.get(i).getJSONObject();
+					
+					termsArray.put(term);
+				}
+				object.put("terms", termsArray);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
+	}
+	
+	// Functions
+	
 	public static LPGooglePlaceType getGooglePlaceTypeFromString(String type)
 	{
 	    if(type.equals(PLACE_TYPE_GEOCODE))
@@ -168,24 +245,4 @@ public class LPPrediction {
 	        return "";
 	    }
 	}
-	
-	public LPPrediction clone()
-	{
-        try {
-        	LPPrediction object = new LPPrediction();
-        	
-        	object.name = this.name;
-        	object.ID = this.ID;
-        	object.number = this.number;
-        	object.reference = this.reference;
-        	object.types = this.types;
-        	object.terms = this.terms;
-        	object.matchedSubstrings = this.matchedSubstrings;
-
-        	return object;
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	return null;
-        }
-	}	
 }

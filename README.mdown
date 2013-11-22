@@ -24,7 +24,7 @@ The Google Directions API is a service that calculates directions between locati
 * **Waypoints.** - Specifies an array of waypoints. Waypoints alter a route by routing it through the specified location(s). A waypoint is specified as either a latitude/longitude coordinate or as an address which will be geocoded.
 
 ```java
-public void loadDirectionsForOrigin(LPLocation origin, LPLocation destination, final LPGoogleDirectionsTravelMode travelMode, LPGoogleDirectionsAvoid avoid, LPGoogleDirectionsUnit unit, boolean alternatives, Date departureTime, Date arrivalTime, ArrayList<LPWaypoint> waypoints, final LPGoogleFunctionsHandler responseHandler)
+public void loadDirectionsForOrigin(LPLocation origin, LPLocation destination, final LPGoogleDirectionsTravelMode travelMode, LPGoogleDirectionsAvoid avoid, LPGoogleDirectionsUnit unit, boolean alternatives, long departureTimeSeconds, long arrivalTimeSeconds, ArrayList<LPWaypoint> waypoints, final DirectionsListener responseHandler)
 ```
 
 ##Street View Images service
@@ -41,12 +41,12 @@ The Google Maps Image APIs make it easy to embed a street view image into your i
 
 Method for location:
 ```java
-public void loadStreetViewImageForLocation(LPLocation location, int imageWidth, int imageHeight, float heading, float fov, float pitch, final LPGoogleFunctionsHandler responseHandler)
+public void loadStreetViewImageForLocation(LPLocation location, int imageWidth, int imageHeight, float heading, float fov, float pitch, final StreetViewImageListener responseHandler)
 ```
 
 Method for address:
 ```java
-public void loadStreetViewImageForAddress(String address, int imageWidth, int imageHeight, float heading, float fov, float pitch, final LPGoogleFunctionsHandler responseHandler)
+public void loadStreetViewImageForAddress(String address, int imageWidth, int imageHeight, float heading, float fov, float pitch, final StreetViewImageListener responseHandler)
 ```
 
 Successful block will return UIImage.
@@ -66,12 +66,12 @@ The Google Maps Image APIs make it easy to embed a static Google Maps image into
 
 Method for location:
 ```java
-public void loadStaticMapImageForLocation(LPLocation location, int zoomLevel, int imageWidth, int imageHeight, int imageScale, LPGoogleMapType mapType, ArrayList<LPMapImageMarker> markers, final LPGoogleFunctionsHandler responseHandler)
+public void loadStaticMapImageForLocation(LPLocation location, int zoomLevel, int imageWidth, int imageHeight, int imageScale, LPGoogleMapType mapType, ArrayList<LPMapImageMarker> markers, final StaticMapImageListener responseHandler)
 ```
 
 Method for address:
 ```java
-public void loadStaticMapImageForAddress(String address, int zoomLevel, int imageWidth, int imageHeight, int imageScale, LPGoogleMapType mapType, ArrayList<LPMapImageMarker> markers, final LPGoogleFunctionsHandler responseHandler)
+public void loadStaticMapImageForAddress(String address, int zoomLevel, int imageWidth, int imageHeight, int imageScale, LPGoogleMapType mapType, ArrayList<LPMapImageMarker> markers, final StaticMapImageListener responseHandler)
 ```
 
 Successful block will return UIImage.
@@ -88,7 +88,7 @@ The Google Places Autocomplete API is a web service that returns Place informati
 * **Country Restriction** - The country must be passed as a two character.
 
 ```java
-public void loadPlacesAutocompleteForInput(String input, int offset, int radius, LPLocation location, LPGooglePlaceType placeType, String countryRestriction, final LPGoogleFunctionsHandler responseHandler)
+public void loadPlacesAutocompleteForInput(String input, int offset, int radius, LPLocation location, LPGooglePlaceType placeType, String countryRestriction, final PlacesAutocompleteListener responseHandler)
 ```
 
 ##Place Details For Reference service
@@ -100,7 +100,7 @@ Once you have a reference from a Place Search, you can request more details abou
 * **Reference** - A textual identifier that uniquely identifies a place, returned from a Place search.
 
 ```java
-public void loadPlaceDetailsForReference(String reference, final LPGoogleFunctionsHandler responseHandler)
+public void loadPlaceDetailsForReference(String reference, final PlaceDetailsListener responseHandler)
 ```
 
 ##Geocoding service
@@ -114,12 +114,12 @@ Geocoding is the process of converting addresses (like "1600 Amphitheatre Parkwa
 
 Method for location:
 ```java
-public void loadGeocodingForLocation(LPLocation location, ArrayList<LPGeocodingFilter> filterComponents, final LPGoogleFunctionsHandler responseHandler)
+public void loadGeocodingForLocation(LPLocation location, ArrayList<LPGeocodingFilter> filterComponents, final GeocodingListener responseHandler)
 ```
 
 Method for address:
 ```java
-public void loadGeocodingForAddress(String address, ArrayList<LPGeocodingFilter> filterComponents, final LPGoogleFunctionsHandler responseHandler)
+public void loadGeocodingForAddress(String address, ArrayList<LPGeocodingFilter> filterComponents, final GeocodingListener responseHandler)
 ```
 
 ##Place Autocomplete with Details service
@@ -136,7 +136,7 @@ Place Autocomplete + Place Details
 * **Country Restriction**  - The country must be passed as a two character.
 
 ```java
-public void loadPlacesAutocompleteWithDetailsForInput(String input, int offset, int radius, LPLocation location, LPGooglePlaceType placeType, String countryRestriction, final LPGoogleFunctionsHandler responseHandler)
+public void loadPlacesAutocompleteWithDetailsForInput(String input, int offset, int radius, LPLocation location, LPGooglePlaceType placeType, String countryRestriction, final PlacesAutocompleteWithDetailsListener responseHandler)
 ```
 
 ##Place Text Search service
@@ -150,7 +150,7 @@ The Google Places API Text Search Service is a web service that returns informat
 * **Radius** - Defines the distance (in meters) within which to bias Place results. The maximum allowed radius is 50 000 meters. Results inside of this region will be ranked higher than results outside of the search circle; however, prominent results from outside of the search radius may be included.
 
 ```java
-public void loadPlaceTextSearchForQuery(String query, LPLocation location, int radius, final LPGoogleFunctionsHandler responseHandler)
+public void loadPlaceTextSearchForQuery(String query, LPLocation location, int radius, final PlaceTextSearchListener responseHandler)
 ```
 
 ##Place Photo for Reference service
@@ -164,13 +164,12 @@ The Places Photo service is a read-only API that allows you to easily add high q
 * **Max Width** - Min image height (accept an integer between 1 and 1600).
 
 ```java
-public void loadPlacePhotoForReference(String reference, int maxHeight, int maxWidth, final LPGoogleFunctionsHandler responseHandler)
+public void loadPlacePhotoForReference(String reference, int maxHeight, int maxWidth, final PlacePhotoListener responseHandler)
 ```
 
 ##Uses Libraries:
 
 * AsyncHttpClient 1.4.3
-* Gson 2.2.4
 
 ##License
 

@@ -42,16 +42,36 @@ public class LPGeometry {
 	
 	public LPGeometry clone()
 	{
+		LPGeometry object = new LPGeometry();
+    	
         try {
-        	LPGeometry object = new LPGeometry();
-        	
         	object.location = this.location;
         	object.viewport = this.viewport;
-        	
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.location != null)
+			{
+				object.put("location", this.location.getJSONObject());
+			}
+			
+			if(this.viewport != null)
+			{
+				object.put("viewport", this.viewport.getJSONObject());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

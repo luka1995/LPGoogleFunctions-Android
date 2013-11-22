@@ -38,10 +38,10 @@ public class LPLine {
 			if(jsonObject.has("agencies"))
 			{
 				this.agencies = new ArrayList<LPAgencie>();
-				JSONArray agencies = jsonObject.getJSONArray("agencies");
-				for(int i=0; i<agencies.length(); i++)
+				JSONArray agenciesArray = jsonObject.getJSONArray("agencies");
+				for(int i=0; i<agenciesArray.length(); i++)
 				{
-					LPAgencie agencie = new LPAgencie(agencies.getJSONObject(i));
+					LPAgencie agencie = new LPAgencie(agenciesArray.getJSONObject(i));
 					
 					this.agencies.add(agencie);
 				}
@@ -77,20 +77,59 @@ public class LPLine {
 	
 	public LPLine clone()
 	{
+		LPLine object = new LPLine();
+    	
         try {
-        	LPLine object = new LPLine();
-        	
         	object.agencies = this.agencies;
         	object.color = this.color;
         	object.name = this.name;
         	object.shortName = this.shortName;
         	object.vehicle = this.vehicle;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.agencies != null)
+			{
+				JSONArray agenciesArray = new JSONArray();
+				for(int i=0; i<this.agencies.size(); i++)
+				{
+					JSONObject agencie = this.agencies.get(i).getJSONObject();
+					
+					agenciesArray.put(agencie);
+				}
+				object.put("agencies", agenciesArray);
+			}
+			
+			object.put("color", this.color);
+			
+			if(this.name != null)
+			{
+				object.put("name", this.name);
+			}
+			
+			if(this.shortName != null)
+			{
+				object.put("short_name", this.shortName);
+			}
+			
+			if(this.vehicle != null)
+			{
+				object.put("vehicle", this.vehicle.getJSONObject());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 	
 	// Functions

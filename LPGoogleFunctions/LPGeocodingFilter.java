@@ -42,19 +42,18 @@ public class LPGeocodingFilter {
 	
 	public LPGeocodingFilter clone()
 	{
+		LPGeocodingFilter object = new LPGeocodingFilter();
+    	
         try {
-        	LPGeocodingFilter object = new LPGeocodingFilter();
-        	
         	object.filter = this.filter;
         	object.value = this.value;
-        	
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
 	}
-	
+
 	// Functions
 	
 	public static String getGeocodingFilter(LPGeocodingFilterMode filter)

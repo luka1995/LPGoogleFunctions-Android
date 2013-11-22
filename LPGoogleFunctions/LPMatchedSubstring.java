@@ -42,16 +42,29 @@ public class LPMatchedSubstring {
 	
 	public LPMatchedSubstring clone()
 	{
+		LPMatchedSubstring object = new LPMatchedSubstring();
+    	
         try {
-        	LPMatchedSubstring object = new LPMatchedSubstring();
-        	
         	object.length = this.length;
         	object.offset = this.offset;
-        	
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			object.put("length", this.length);
+			object.put("offset", this.offset);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

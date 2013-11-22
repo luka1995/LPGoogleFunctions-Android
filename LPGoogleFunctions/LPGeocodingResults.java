@@ -52,16 +52,15 @@ public class LPGeocodingResults {
 	
 	public LPGeocodingResults clone()
 	{
+		LPGeocodingResults object = new LPGeocodingResults();
+    	
         try {
-        	LPGeocodingResults object = new LPGeocodingResults();
-        	
         	object.results = this.results;
         	object.statusCode = this.statusCode;
-        	
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
 	}
 }

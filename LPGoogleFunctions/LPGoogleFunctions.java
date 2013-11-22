@@ -32,9 +32,7 @@ import java.security.KeyStore;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.Date;
 
-import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,29 +49,29 @@ public class LPGoogleFunctions {
 	// Variables
 
 	public enum LPGoogleStatus {
-	    LPGoogleStatusUnknownError,
-	    LPGoogleStatusOK,
-	    LPGoogleStatusNotFound,
-	    LPGoogleStatusZeroResults,
-	    LPGoogleStatusMaxWaypointsExceeded,
-	    LPGoogleStatusInvalidRequest,
-	    LPGoogleStatusOverQueryLimit,
-	    LPGoogleStatusRequestDenied
+	    UnknownError,
+	    OK,
+	    NotFound,
+	    ZeroResults,
+	    MaxWaypointsExceeded,
+	    InvalidRequest,
+	    OverQueryLimit,
+	    RequestDenied
 	};
 
-	public enum LPGoogleMapType{
+	public enum LPGoogleMapType {
 	    LPGoogleMapTypeRoadmap,
 	    LPGoogleMapTypeSatellite,
 	    LPGoogleMapTypeHybrid,
 	    LPGoogleMapTypeTerrain
-	}
+	};
 
 	public boolean sensor = true; /** Using GPS location sensor */
 	public String languageCode = "en"; /** Language ISO code (default "en") **/
 	public String googleAPIBrowserKey = "";
 	
 	// Const
-
+ 
 	public static String mapTypeRoadmap = "roadmap";
 	public static String mapTypeHybrid = "hybrid";
 	public static String mapTypeSatellite = "satellite";
@@ -103,12 +101,77 @@ public class LPGoogleFunctions {
     private ArrayList<LPPlaceDetails> placeDetailsArray = new ArrayList<LPPlaceDetails>();
     private boolean blockSend = false;
 
+    // Listeners
+    
+    public interface DirectionsListener
+    {
+    	public void willLoadDirections();
+    	public void didLoadDirections(LPDirections directions);
+    	public void errorLoadingDirections(LPGoogleStatus status);
+	}
+    
+    public interface StreetViewImageListener
+    {
+        public void willLoadStreetViewImage();
+        public void didLoadStreetViewImage(Bitmap bmp);
+        public void errorLoadingStreetViewImage(Throwable error);
+	}
+    
+    public interface StaticMapImageListener
+    {
+    	public void willLoadStaticMapImage();
+        public void didLoadStaticMapImage(Bitmap bmp);
+        public void errorLoadingStaticMapImage(Throwable error);
+	}
+    
+    public interface PlacesAutocompleteListener
+    {
+        public void willLoadPlacesAutocomplete();
+        public void didLoadPlacesAutocomplete(LPPlacesAutocomplete placesAutocomplete);
+        public void errorLoadingPlacesAutocomplete(LPGoogleStatus status);
+	}
+    
+    public interface PlaceDetailsListener
+    {
+    	public void willLoadPlaceDetails();
+        public void didLoadPlaceDetails(LPPlaceDetailsResults placeDetailsResults);
+        public void errorLoadingPlaceDetails(LPGoogleStatus status);
+	}
+    
+    public interface GeocodingListener
+    {
+    	public void willLoadGeocoding();
+        public void didLoadGeocoding(LPGeocodingResults geocodingResults);
+        public void errorLoadingGeocoding(LPGoogleStatus status);
+	}
+    
+    public interface PlacesAutocompleteWithDetailsListener
+    {
+    	public void willLoadPlacesAutocompleteWithDetails();
+    	public void didLoadPlacesAutocompleteWithDetails(ArrayList<LPPlaceDetails> placesWithDetails);
+    	public void errorLoadingPlacesAutocompleteWithDetails(LPGoogleStatus status);
+	}
+    
+    public interface PlaceTextSearchListener
+    {
+        public void willLoadPlaceTextSearch();
+        public void didLoadPlaceTextSearch(LPPlaceSearchResults placeDetailsResults);
+        public void errorLoadingPlaceTextSearch(LPGoogleStatus status);
+	}
+    
+    public interface PlacePhotoListener
+    {
+        public void willLoadPlacePhoto();
+        public void didLoadPlacePhoto(Bitmap bmp);
+        public void errorLoadingPlacePhoto(Throwable error);
+	}
+    
 	// Class
-	
+    
 	public LPGoogleFunctions() 
 	{
 		this.client = new AsyncHttpClient();
-		this.setSSLSocketForClient(client);
+		this.setSSLSocketForClient(this.client);
 	}
 	
 	// Functions
@@ -119,8 +182,8 @@ public class LPGoogleFunctions {
 	        KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
 	        trustStore.load(null, null);
 
-	        SSLSocketFactory sf = new MySSLSocketFactory(trustStore);
-	        sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+	        MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+	        sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
 
 	        client.setSSLSocketFactory(sf);
 	    } catch (Exception e) {
@@ -147,21 +210,21 @@ public class LPGoogleFunctions {
 	{
 	    if(status.equals(STATUS_OK))
 	    {
-	        return LPGoogleStatus.LPGoogleStatusOK;
+	        return LPGoogleStatus.OK;
 	    } else if(status.equals(STATUS_NOT_FOUND)) {
-	        return LPGoogleStatus.LPGoogleStatusNotFound;
+	        return LPGoogleStatus.NotFound;
 	    } else if(status.equals(STATUS_ZERO_RESULTS)) {
-	        return LPGoogleStatus.LPGoogleStatusZeroResults;
+	        return LPGoogleStatus.ZeroResults;
 	    } else if(status.equals(STATUS_MAX_WAYPOINTS_EXCEEDED)) {
-	        return LPGoogleStatus.LPGoogleStatusMaxWaypointsExceeded;
+	        return LPGoogleStatus.MaxWaypointsExceeded;
 	    } else if(status.equals(STATUS_INVALID_REQUEST)) {
-	        return LPGoogleStatus.LPGoogleStatusInvalidRequest;
+	        return LPGoogleStatus.InvalidRequest;
 	    } else if(status.equals(STATUS_OVER_QUERY_LIMIT)) {
-	        return LPGoogleStatus.LPGoogleStatusOverQueryLimit;
+	        return LPGoogleStatus.OverQueryLimit;
 	    } else if(status.equals(STATUS_REQUEST_DENIED)) {
-	        return LPGoogleStatus.LPGoogleStatusRequestDenied;
+	        return LPGoogleStatus.RequestDenied;
 	    } else {
-	        return LPGoogleStatus.LPGoogleStatusUnknownError;
+	        return LPGoogleStatus.UnknownError;
 	    }
 	}
 	
@@ -169,19 +232,19 @@ public class LPGoogleFunctions {
 	{
 	    switch (status)
 	    {
-	        case LPGoogleStatusOK:
+	        case OK:
 	            return STATUS_OK;
-	        case LPGoogleStatusInvalidRequest:
+	        case InvalidRequest:
 	            return STATUS_INVALID_REQUEST;
-	        case LPGoogleStatusMaxWaypointsExceeded:
+	        case MaxWaypointsExceeded:
 	            return STATUS_MAX_WAYPOINTS_EXCEEDED;
-	        case LPGoogleStatusNotFound:
+	        case NotFound:
 	            return STATUS_NOT_FOUND;
-	        case LPGoogleStatusOverQueryLimit:
+	        case OverQueryLimit:
 	            return STATUS_OVER_QUERY_LIMIT;
-	        case LPGoogleStatusRequestDenied:
+	        case RequestDenied:
 	            return STATUS_REQUEST_DENIED;
-	        case LPGoogleStatusZeroResults:
+	        case ZeroResults:
 	            return STATUS_ZERO_RESULTS;
 	        default:
 	            return STATUS_UNKNOWN_ERROR;
@@ -208,7 +271,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingDirections(LPGoogleStatus status)
 	 */
 
-	public void loadDirectionsForOrigin(LPLocation origin, LPLocation destination, final LPGoogleDirectionsTravelMode travelMode, LPGoogleDirectionsAvoid avoid, LPGoogleDirectionsUnit unit, boolean alternatives, Date departureTime, Date arrivalTime, ArrayList<LPWaypoint> waypoints, final LPGoogleFunctionsHandler responseHandler)
+	public void loadDirectionsForOrigin(LPLocation origin, LPLocation destination, final LPGoogleDirectionsTravelMode travelMode, LPGoogleDirectionsAvoid avoid, LPGoogleDirectionsUnit unit, boolean alternatives, long departureTimeSeconds, long arrivalTimeSeconds, ArrayList<LPWaypoint> waypoints, final DirectionsListener responseHandler)
 	{
 		if(responseHandler != null) responseHandler.willLoadDirections();
 
@@ -244,17 +307,17 @@ public class LPGoogleFunctions {
 		
 	    //ALTERNATIVES
 		parameters.put("alternatives", alternatives ? "true" : "false");
-
+		
 	    //departureTime
-	    if(departureTime != null)
+	    if(departureTimeSeconds > 0)
 	    {
-	        parameters.put("departure_time", String.format("%.0f", departureTime.getTime()));
+	        parameters.put("departure_time", String.valueOf(departureTimeSeconds));
 	    }
 	    
 	    //departureTime
-	    if(arrivalTime != null)
+	    if(arrivalTimeSeconds > 0)
 	    {
-	    	parameters.put("arrival_time", String.format("%.0f", arrivalTime.getTime()));
+	    	parameters.put("arrival_time", String.valueOf(arrivalTimeSeconds));
 	    }
 	    
 	    //WAYPOINTS
@@ -266,12 +329,12 @@ public class LPGoogleFunctions {
 	        {
 	            LPWaypoint waypoint = waypoints.get(i);
 	            
-	            waypointsString.append(String.format("%s,%s", coordinateDecimalFormat.format(waypoint.location.latitude), coordinateDecimalFormat.format(waypoint.location.longitude)));
+	            waypointsString.append(String.format("%s,%s|", coordinateDecimalFormat.format(waypoint.location.latitude), coordinateDecimalFormat.format(waypoint.location.longitude)));
 	        }
 	        
 	        parameters.put("waypoints", waypointsString.toString());
 	    }
-	    
+
     	this.client.get(googleAPIDirectionsURL, parameters, new AsyncHttpResponseHandler() {
     	    @Override
     	    public void onSuccess(String response) {
@@ -283,7 +346,7 @@ public class LPGoogleFunctions {
 	    	    	
 	    	        LPGoogleStatus status = LPGoogleFunctions.getGoogleStatusFromString(directions.statusCode);
 
-	    	        if(status==LPGoogleStatus.LPGoogleStatusOK)
+	    	        if(status==LPGoogleStatus.OK)
 	    	        {
 	    	        	if(responseHandler != null) responseHandler.didLoadDirections(directions);
 	    	        } else {
@@ -292,13 +355,13 @@ public class LPGoogleFunctions {
 				} catch (JSONException e) {
 					e.printStackTrace();
 					
-					if(responseHandler != null) responseHandler.errorLoadingDirections(LPGoogleStatus.LPGoogleStatusUnknownError);
+					if(responseHandler != null) responseHandler.errorLoadingDirections(LPGoogleStatus.UnknownError);
 				}
     	    }
 
     	    @Override
     	    public void onFailure(Throwable error) {
-    	    	if(responseHandler != null) responseHandler.errorLoadingDirections(LPGoogleStatus.LPGoogleStatusUnknownError);
+    	    	if(responseHandler != null) responseHandler.errorLoadingDirections(LPGoogleStatus.UnknownError);
     	    }
     	});
 	}
@@ -321,7 +384,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingStreetViewImage(Throwable error);
 	 */
 	
-	public void loadStreetViewImageForLocation(LPLocation location, int imageWidth, int imageHeight, float heading, float fov, float pitch, final LPGoogleFunctionsHandler responseHandler)
+	public void loadStreetViewImageForLocation(LPLocation location, int imageWidth, int imageHeight, float heading, float fov, float pitch, final StreetViewImageListener responseHandler)
 	{
 		if(responseHandler != null)	responseHandler.willLoadStreetViewImage();
 
@@ -382,7 +445,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingStreetViewImage(Throwable error);
 	 */
 	
-	public void loadStreetViewImageForAddress(String address, int imageWidth, int imageHeight, float heading, float fov, float pitch, final LPGoogleFunctionsHandler responseHandler)
+	public void loadStreetViewImageForAddress(String address, int imageWidth, int imageHeight, float heading, float fov, float pitch, final StreetViewImageListener responseHandler)
 	{
 		if(responseHandler != null)	responseHandler.willLoadStreetViewImage();
 
@@ -444,7 +507,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingStaticMapImage(Throwable error)
 	 */
 	
-	public void loadStaticMapImageForLocation(LPLocation location, int zoomLevel, int imageWidth, int imageHeight, int imageScale, LPGoogleMapType mapType, ArrayList<LPMapImageMarker> markers, final LPGoogleFunctionsHandler responseHandler)
+	public void loadStaticMapImageForLocation(LPLocation location, int zoomLevel, int imageWidth, int imageHeight, int imageScale, LPGoogleMapType mapType, ArrayList<LPMapImageMarker> markers, final StaticMapImageListener responseHandler)
 	{
 		if(responseHandler != null)	responseHandler.willLoadStaticMapImage();
 
@@ -512,7 +575,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingStaticMapImage(Throwable error)
 	 */
 	
-	public void loadStaticMapImageForAddress(String address, int zoomLevel, int imageWidth, int imageHeight, int imageScale, LPGoogleMapType mapType, ArrayList<LPMapImageMarker> markers, final LPGoogleFunctionsHandler responseHandler)
+	public void loadStaticMapImageForAddress(String address, int zoomLevel, int imageWidth, int imageHeight, int imageScale, LPGoogleMapType mapType, ArrayList<LPMapImageMarker> markers, final StaticMapImageListener responseHandler)
 	{
 		if(responseHandler != null)	responseHandler.willLoadStaticMapImage();
 		
@@ -576,7 +639,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingPlacesAutocomplete(LPGoogleStatus status)
 	 */
 
-	public void loadPlacesAutocompleteForInput(String input, int offset, int radius, LPLocation location, LPGooglePlaceType placeType, String countryRestriction, final LPGoogleFunctionsHandler responseHandler)
+	public void loadPlacesAutocompleteForInput(String input, int offset, int radius, LPLocation location, LPGooglePlaceType placeType, String countryRestriction, final PlacesAutocompleteListener responseHandler)
 	{
 		if(responseHandler != null)	responseHandler.willLoadPlacesAutocomplete();
 		
@@ -611,7 +674,7 @@ public class LPGoogleFunctions {
 					
 	    	        LPGoogleStatus status = LPGoogleFunctions.getGoogleStatusFromString(placesAutocomplete.statusCode);
 
-	    	        if(status==LPGoogleStatus.LPGoogleStatusOK)
+	    	        if(status==LPGoogleStatus.OK)
 	    	        {
 	    	        	if(responseHandler != null) responseHandler.didLoadPlacesAutocomplete(placesAutocomplete);
 	    	        } else {
@@ -620,13 +683,13 @@ public class LPGoogleFunctions {
 				} catch (JSONException e) {
 					e.printStackTrace();
 					
-					if(responseHandler != null) responseHandler.errorLoadingPlacesAutocomplete(LPGoogleStatus.LPGoogleStatusUnknownError);
+					if(responseHandler != null) responseHandler.errorLoadingPlacesAutocomplete(LPGoogleStatus.UnknownError);
 				}
     	    }
 
     	    @Override
     	    public void onFailure(Throwable error) {
-    	    	if(responseHandler != null) responseHandler.errorLoadingPlacesAutocomplete(LPGoogleStatus.LPGoogleStatusUnknownError);
+    	    	if(responseHandler != null) responseHandler.errorLoadingPlacesAutocomplete(LPGoogleStatus.UnknownError);
     	    }
     	});
 	}
@@ -641,7 +704,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingPlaceDetails(LPGoogleStatus status)
 	 */
 
-	public void loadPlaceDetailsForReference(String reference, final LPGoogleFunctionsHandler responseHandler)
+	public void loadPlaceDetailsForReference(String reference, final PlaceDetailsListener responseHandler)
 	{
 		if(responseHandler != null)	responseHandler.willLoadPlaceDetails();
 		
@@ -662,7 +725,7 @@ public class LPGoogleFunctions {
 
 	    	        LPGoogleStatus status = LPGoogleFunctions.getGoogleStatusFromString(placeDetailsResults.statusCode);
 
-	    	        if(status==LPGoogleStatus.LPGoogleStatusOK)
+	    	        if(status==LPGoogleStatus.OK)
 	    	        {
 	    	        	if(responseHandler != null) responseHandler.didLoadPlaceDetails(placeDetailsResults);
 	    	        } else {
@@ -671,13 +734,13 @@ public class LPGoogleFunctions {
 				} catch (JSONException e) {
 					e.printStackTrace();
 					
-					if(responseHandler != null) responseHandler.errorLoadingPlaceDetails(LPGoogleStatus.LPGoogleStatusUnknownError);
+					if(responseHandler != null) responseHandler.errorLoadingPlaceDetails(LPGoogleStatus.UnknownError);
 				}
     	    }
 
     	    @Override
     	    public void onFailure(Throwable error) {
-    	    	if(responseHandler != null) responseHandler.errorLoadingPlaceDetails(LPGoogleStatus.LPGoogleStatusUnknownError);
+    	    	if(responseHandler != null) responseHandler.errorLoadingPlaceDetails(LPGoogleStatus.UnknownError);
     	    }
     	});
 	}
@@ -694,7 +757,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingGeocoding(LPGoogleStatus status)
 	 */
 
-	public void loadGeocodingForAddress(String address, ArrayList<LPGeocodingFilter> filterComponents, final LPGoogleFunctionsHandler responseHandler)
+	public void loadGeocodingForAddress(String address, ArrayList<LPGeocodingFilter> filterComponents, final GeocodingListener responseHandler)
 	{
 		if(responseHandler != null)	responseHandler.willLoadGeocoding();
 
@@ -730,7 +793,7 @@ public class LPGoogleFunctions {
 
 	    	        LPGoogleStatus status = LPGoogleFunctions.getGoogleStatusFromString(geocodingResults.statusCode);
 
-	    	        if(status==LPGoogleStatus.LPGoogleStatusOK)
+	    	        if(status==LPGoogleStatus.OK)
 	    	        {
 	    	        	if(responseHandler != null) responseHandler.didLoadGeocoding(geocodingResults);
 	    	        } else {
@@ -739,13 +802,13 @@ public class LPGoogleFunctions {
 				} catch (JSONException e) {
 					e.printStackTrace();
 					
-					if(responseHandler != null) responseHandler.errorLoadingGeocoding(LPGoogleStatus.LPGoogleStatusUnknownError);
+					if(responseHandler != null) responseHandler.errorLoadingGeocoding(LPGoogleStatus.UnknownError);
 				}
     	    }
 
     	    @Override
     	    public void onFailure(Throwable error) {
-    	    	if(responseHandler != null) responseHandler.errorLoadingGeocoding(LPGoogleStatus.LPGoogleStatusUnknownError);
+    	    	if(responseHandler != null) responseHandler.errorLoadingGeocoding(LPGoogleStatus.UnknownError);
     	    }
     	});
 	}
@@ -762,7 +825,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingGeocoding(LPGoogleStatus status)
 	 */
 	
-	public void loadGeocodingForLocation(LPLocation location, ArrayList<LPGeocodingFilter> filterComponents, final LPGoogleFunctionsHandler responseHandler)
+	public void loadGeocodingForLocation(LPLocation location, ArrayList<LPGeocodingFilter> filterComponents, final GeocodingListener responseHandler)
 	{
 		if(responseHandler != null)	responseHandler.willLoadGeocoding();
 
@@ -803,7 +866,7 @@ public class LPGoogleFunctions {
 
 	    	        LPGoogleStatus status = LPGoogleFunctions.getGoogleStatusFromString(geocodingResults.statusCode);
 
-	    	        if(status==LPGoogleStatus.LPGoogleStatusOK)
+	    	        if(status==LPGoogleStatus.OK)
 	    	        {
 	    	        	if(responseHandler != null) responseHandler.didLoadGeocoding(geocodingResults);
 	    	        } else {
@@ -812,13 +875,13 @@ public class LPGoogleFunctions {
 				} catch (JSONException e) {
 					e.printStackTrace();
 					
-					if(responseHandler != null) responseHandler.errorLoadingGeocoding(LPGoogleStatus.LPGoogleStatusUnknownError);
+					if(responseHandler != null) responseHandler.errorLoadingGeocoding(LPGoogleStatus.UnknownError);
 				}
     	    }
 
     	    @Override
     	    public void onFailure(Throwable error) {
-    	    	if(responseHandler != null) responseHandler.errorLoadingGeocoding(LPGoogleStatus.LPGoogleStatusUnknownError);
+    	    	if(responseHandler != null) responseHandler.errorLoadingGeocoding(LPGoogleStatus.UnknownError);
     	    }
     	});
 	}
@@ -837,7 +900,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingPlacesAutocompleteWithDetails(LPGoogleStatus status)
 	 */
 
-	public void loadPlacesAutocompleteWithDetailsForInput(String input, int offset, int radius, LPLocation location, LPGooglePlaceType placeType, String countryRestriction, final LPGoogleFunctionsHandler responseHandler)
+	public void loadPlacesAutocompleteWithDetailsForInput(String input, int offset, int radius, LPLocation location, LPGooglePlaceType placeType, String countryRestriction, final PlacesAutocompleteWithDetailsListener responseHandler)
 	{
 		if(responseHandler != null) responseHandler.willLoadPlacesAutocompleteWithDetails();
 		
@@ -847,21 +910,60 @@ public class LPGoogleFunctions {
 		this.blockSend = false;
 		this.placeDetailsArray = new ArrayList<LPPlaceDetails>();
 		
-		self.loadPlacesAutocompleteForInput(input, offset, radius, location, placeType, countryRestriction, new LPGoogleFunctionsHandler() {
+		self.loadPlacesAutocompleteForInput(input, offset, radius, location, placeType, countryRestriction, new LPGoogleFunctions.PlacesAutocompleteListener() {
+
 			@Override
-			public void didLoadPlacesAutocomplete(final LPPlacesAutocomplete placesAutocomplete) {
-			        
+			public void willLoadPlacesAutocomplete() {
+
+			}
+
+			@Override
+			public void didLoadPlacesAutocomplete(
+					final LPPlacesAutocomplete placesAutocomplete) {
 				for(int i=0; i<placesAutocomplete.predictions.size();i++)
 		        {
-		            String reference = placesAutocomplete.predictions.get(i).reference;
+					String reference = placesAutocomplete.predictions.get(i).reference;
 		            
-		            self.loadPlaceDetailsForReference(reference, new LPGoogleFunctionsHandler() {
-		            	@Override
-		            	public void didLoadPlaceDetails(LPPlaceDetailsResults placeDetailsResults) {
-		            		LPPlaceDetails placeWithDetails = placeDetailsResults.result.clone();
+					self.loadPlaceDetailsForReference(reference, new PlaceDetailsListener() {
+
+						@Override
+						public void willLoadPlaceDetails() {
+
+						}
+
+						@Override
+						public void didLoadPlaceDetails(
+								LPPlaceDetailsResults placeDetailsResults) {
+							LPPlaceDetails placeWithDetails = placeDetailsResults.result.clone();
 							
 		            		placeDetailsArray.add(placeWithDetails);
 							
+							whichLoaded++;
+							
+							if(whichLoaded >= placesAutocomplete.predictions.size())
+				            {
+			                    if(placeDetailsArray.size() > 0)
+			                    {
+			                        if(blockSend==false)
+			                        {
+			                            if(responseHandler != null) responseHandler.didLoadPlacesAutocompleteWithDetails(placeDetailsArray);
+			                            
+			                            blockSend = true;
+			                        }
+			                    } else {
+			                        if(blockSend==false)
+			                        {
+			                        	if(responseHandler != null) responseHandler.errorLoadingPlacesAutocompleteWithDetails(LPGoogleStatus.ZeroResults);
+
+			                            blockSend = true;
+			                        }
+			                    }
+				            }
+						}
+
+						@Override
+						public void errorLoadingPlaceDetails(
+								LPGoogleStatus status) {
 							whichLoaded++;
 
 				            if(whichLoaded >= placesAutocomplete.predictions.size())
@@ -877,46 +979,23 @@ public class LPGoogleFunctions {
 			                    } else {
 			                        if(blockSend==false)
 			                        {
-			                        	if(responseHandler != null) responseHandler.errorLoadingPlacesAutocompleteWithDetails(LPGoogleStatus.LPGoogleStatusZeroResults);
+			                        	if(responseHandler != null) responseHandler.errorLoadingPlacesAutocompleteWithDetails(LPGoogleStatus.ZeroResults);
 
 			                            blockSend = true;
 			                        }
 			                    }
 				            }
-		            	}
-		            	
-		            	@Override
-		            	public void errorLoadingPlaceDetails(LPGoogleStatus status) {
-		            		whichLoaded++;
-
-				            if(whichLoaded >= placesAutocomplete.predictions.size())
-				            {
-			                    if(placeDetailsArray.size() > 0)
-			                    {
-			                        if(blockSend==false)
-			                        {
-			                            if(responseHandler != null) responseHandler.didLoadPlacesAutocompleteWithDetails(placeDetailsArray);
-			                            
-			                            blockSend = true;
-			                        }
-			                    } else {
-			                        if(blockSend==false)
-			                        {
-			                        	if(responseHandler != null) responseHandler.errorLoadingPlacesAutocompleteWithDetails(LPGoogleStatus.LPGoogleStatusZeroResults);
-
-			                            blockSend = true;
-			                        }
-			                    }
-				            }
-		            	}
-		            });
+						}
+						
+					});
 		        }
 			}
-			
+
 			@Override
 			public void errorLoadingPlacesAutocomplete(LPGoogleStatus status) {
-				if(responseHandler != null) responseHandler.errorLoadingPlacesAutocompleteWithDetails(LPGoogleStatus.LPGoogleStatusUnknownError);
+				if(responseHandler != null) responseHandler.errorLoadingPlacesAutocompleteWithDetails(LPGoogleStatus.UnknownError);
 			}
+
 		});
 	}
 	
@@ -934,7 +1013,7 @@ public class LPGoogleFunctions {
 	 * @override public void errorLoadingPlaceTextSearch(LPPlaceSearchResults placeDetailsResults)
 	 */
 	
-	public void loadPlaceTextSearchForQuery(String query, LPLocation location, int radius, final LPGoogleFunctionsHandler responseHandler)
+	public void loadPlaceTextSearchForQuery(String query, LPLocation location, int radius, final PlaceTextSearchListener responseHandler)
 	{
 		if(responseHandler != null) responseHandler.willLoadPlaceTextSearch();
 		
@@ -962,7 +1041,7 @@ public class LPGoogleFunctions {
 
 	    	        LPGoogleStatus status = LPGoogleFunctions.getGoogleStatusFromString(placeDetailsResults.statusCode);
 
-	    	        if(status==LPGoogleStatus.LPGoogleStatusOK)
+	    	        if(status==LPGoogleStatus.OK)
 	    	        {
 	    	        	if(responseHandler != null) responseHandler.didLoadPlaceTextSearch(placeDetailsResults);
 	    	        } else {
@@ -971,13 +1050,13 @@ public class LPGoogleFunctions {
 				} catch (JSONException e) {
 					e.printStackTrace();
 					
-					if(responseHandler != null) responseHandler.errorLoadingPlaceTextSearch(LPGoogleStatus.LPGoogleStatusUnknownError);
+					if(responseHandler != null) responseHandler.errorLoadingPlaceTextSearch(LPGoogleStatus.UnknownError);
 				}
     	    }
 
     	    @Override
     	    public void onFailure(Throwable error) {
-    	    	if(responseHandler != null) responseHandler.errorLoadingPlaceTextSearch(LPGoogleStatus.LPGoogleStatusUnknownError);
+    	    	if(responseHandler != null) responseHandler.errorLoadingPlaceTextSearch(LPGoogleStatus.UnknownError);
     	    }
     	});
 	}
@@ -996,7 +1075,7 @@ public class LPGoogleFunctions {
 	 * @Override public void errorLoadingPlacePhoto()
 	 */
 	
-	public void loadPlacePhotoForReference(String reference, int maxHeight, int maxWidth, final LPGoogleFunctionsHandler responseHandler)
+	public void loadPlacePhotoForReference(String reference, int maxHeight, int maxWidth, final PlacePhotoListener responseHandler)
 	{
 		if(responseHandler != null) responseHandler.willLoadPlacePhoto();
 		

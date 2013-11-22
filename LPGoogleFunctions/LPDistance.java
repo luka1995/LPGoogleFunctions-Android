@@ -42,17 +42,33 @@ public class LPDistance {
 	
 	public LPDistance clone()
 	{
+		LPDistance object = new LPDistance();
+    	
         try {
-        	LPDistance object = new LPDistance();
-        	
         	object.text = this.text;
         	object.value = this.value;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
 	}
 	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.text != null)
+			{
+				object.put("text", this.text);
+			}
+			
+			object.put("value", this.value);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
+	}
 }

@@ -92,18 +92,40 @@ public class LPVehicle {
 	
 	public LPVehicle clone()
 	{
+		LPVehicle object = new LPVehicle();
+    	
         try {
-        	LPVehicle object = new LPVehicle();
-        	
         	object.icon = this.icon;
         	object.name = this.name;
         	object.type = this.type;
-        	
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.icon != null)
+			{
+				object.put("icon", this.icon);
+			}
+			
+			if(this.name != null)
+			{
+				object.put("name", this.name);
+			}
+			
+			object.put("type", LPVehicle.getGoogleVehicleType(this.type));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 	
 	// Functions

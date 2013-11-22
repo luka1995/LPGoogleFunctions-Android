@@ -34,19 +34,18 @@ public class LPMapImageMarker {
 	
 	public LPMapImageMarker clone()
 	{
+		LPMapImageMarker object = new LPMapImageMarker();
+    	
         try {
-        	LPMapImageMarker object = new LPMapImageMarker();
-        	
         	object.size = this.size;
         	object.color = this.color;
         	object.label = this.label;
         	object.location = this.location;
-        	
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
 	}
 	
 	// Functions

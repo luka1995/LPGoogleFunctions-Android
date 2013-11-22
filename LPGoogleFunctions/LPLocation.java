@@ -48,16 +48,29 @@ public class LPLocation {
 	
 	public LPLocation clone()
 	{
+		LPLocation object = new LPLocation();
+    	
         try {
-        	LPLocation object = new LPLocation();
-        	
         	object.latitude = this.latitude;
         	object.longitude = this.longitude;
-        	
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			object.put("lat", this.latitude);
+			object.put("lng", this.longitude);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

@@ -64,18 +64,42 @@ public class LPPlacePhoto {
 	
 	public LPPlacePhoto clone()
 	{
+		LPPlacePhoto object = new LPPlacePhoto();
+    	
         try {
-        	LPPlacePhoto object = new LPPlacePhoto();
-        	
         	object.htmlAttributions = this.htmlAttributions;
         	object.height = this.height;
         	object.width = this.width;
         	object.photoReference = this.photoReference;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.htmlAttributions != null)
+			{
+				object.put("html_attributions", new JSONArray(this.htmlAttributions));
+			}
+			
+			object.put("height", this.height);
+			
+			object.put("width", this.width);
+			
+			if(this.photoReference != null)
+			{
+				object.put("photo_reference", this.photoReference);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

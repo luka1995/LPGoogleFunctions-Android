@@ -102,9 +102,9 @@ public class LPRoute {
 	
 	public LPRoute clone()
 	{
+		LPRoute object = new LPRoute();
+    	
         try {
-        	LPRoute object = new LPRoute();
-        	
         	object.number = this.number;
         	object.bounds = this.bounds;
         	object.copyrights = this.copyrights;
@@ -113,12 +113,80 @@ public class LPRoute {
         	object.summary = this.summary;
         	object.waypoints = this.waypoints;
         	object.warnings = this.warnings;
-        	
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.warnings != null)
+			{
+				JSONArray warningsArray = new JSONArray();
+				for(int i=0; i<this.warnings.size(); i++)
+				{
+					String warning = this.warnings.get(i).toString();
+					
+					warningsArray.put(warning);
+				}
+				object.put("warnings", warningsArray);
+			}
+				
+			if(this.bounds != null)
+			{
+				object.put("bounds", this.bounds.getJSONObject());
+			}
+			
+			if(this.copyrights != null)
+			{
+				object.put("copyrights", this.copyrights);
+			}
+			
+			if(this.legs != null)
+			{
+				JSONArray legsArray = new JSONArray();
+				for(int i=0; i<this.legs.size(); i++)
+				{
+					JSONObject leg = this.legs.get(i).getJSONObject();
+					
+					legsArray.put(leg);
+				}
+				object.put("legs", legsArray);
+			}
+			
+			if(this.overviewPolyline != null)
+			{
+				object.put("overview_polyline", this.overviewPolyline.getJSONObject());
+			}
+			
+			if(this.summary != null)
+			{
+				object.put("summary", this.summary);
+			}
+			
+			if(this.waypoints != null)
+			{
+				JSONArray waypointsArray = new JSONArray();
+				for(int i=0; i<this.waypoints.size(); i++)
+				{
+					JSONObject waypoint = this.waypoints.get(i).getJSONObject();
+					
+					waypointsArray.put(waypoint);
+				}
+				object.put("via_waypoint", waypointsArray);
+			}
+			
+			object.put("number", this.number);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 	
 	// Functions
@@ -127,23 +195,38 @@ public class LPRoute {
 	{
 	    int value = 0;
 	    
-	    for(int a=0; a<this.legs.size(); a++)
+	    if(this.legs != null)
 	    {
-	        LPLeg leg = this.legs.get(a);
+		    for(int a=0; a<this.legs.size(); a++)
+		    {
+		        LPLeg leg = this.legs.get(a);
 
-	        for(int b=0; b<leg.steps.size(); b++)
-	        {
-	            LPStep step = leg.steps.get(b);
-	            
-	            value += step.duration.value;
-	            
-	            for(int c=0; c<step.subSteps.size(); c++)
-	            {
-	                LPStep substep = step.subSteps.get(c);
-	                
-	                value += substep.duration.value;
-	            }
-	        }
+		        if(leg != null)
+		        {
+			        for(int b=0; b<leg.steps.size(); b++)
+			        {
+			            LPStep step = leg.steps.get(b);
+			            
+			            if(step != null)
+			            {
+				            value += step.duration.value;
+				            
+				            if(step.subSteps != null)
+				            {
+				            	for(int c=0; c<step.subSteps.size(); c++)
+					            {
+					                LPStep substep = step.subSteps.get(c);
+					                
+					                if(substep != null)
+					                {
+					                	value += substep.duration.value;
+					                }
+					            }
+				            }
+			            }
+			        }
+		        }
+		    }
 	    }
 	    
 	    return value;
@@ -153,23 +236,38 @@ public class LPRoute {
 	{
 	    int value = 0;
 	    
-	    for(int a=0; a<this.legs.size(); a++)
+	    if(this.legs != null)
 	    {
-	        LPLeg leg = this.legs.get(a);
-	        
-	        for(int b=0; b<leg.steps.size(); b++)
-	        {
-	            LPStep step = leg.steps.get(b);
-	            
-	            value += step.distance.value;
-	            
-	            for(int c=0; c<step.subSteps.size(); c++)
-	            {
-	                LPStep substep = step.subSteps.get(c);
-	                
-	                value += substep.distance.value;
-	            }
-	        }
+		    for(int a=0; a<this.legs.size(); a++)
+		    {
+		        LPLeg leg = this.legs.get(a);
+		        
+		        if(leg != null)
+		        {
+			        for(int b=0; b<leg.steps.size(); b++)
+			        {
+			            LPStep step = leg.steps.get(b);
+			            
+			            if(step != null)
+			            {
+			            	value += step.distance.value;
+				            
+			            	if(step.subSteps != null)
+			            	{
+					            for(int c=0; c<step.subSteps.size(); c++)
+					            {
+					                LPStep substep = step.subSteps.get(c);
+					                
+					                if(substep != null)
+					                {
+					                	value += substep.distance.value;
+					                }
+					            }
+			            	}
+			            }
+			        }
+		        }
+		    }
 	    }
 	    
 	    return value;

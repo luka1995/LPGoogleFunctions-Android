@@ -58,17 +58,16 @@ public class LPPlaceDetailsResults {
 	
 	public LPPlaceDetailsResults clone()
 	{
+		LPPlaceDetailsResults object = new LPPlaceDetailsResults();
+    	
         try {
-        	LPPlaceDetailsResults object = new LPPlaceDetailsResults();
-        	
         	object.htmlAttributions = this.htmlAttributions;
         	object.result = this.result;
         	object.statusCode = this.statusCode;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
 	}
 }

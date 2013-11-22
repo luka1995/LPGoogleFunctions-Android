@@ -42,16 +42,29 @@ public class LPTerm {
 	
 	public LPTerm clone()
 	{
+		LPTerm object = new LPTerm();
+    	
         try {
-        	LPTerm object = new LPTerm();
-        	
         	object.value = this.value;
         	object.offset = this.offset;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			object.put("value", this.value);
+			object.put("offset", this.offset);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

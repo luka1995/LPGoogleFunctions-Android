@@ -42,16 +42,36 @@ public class LPAgencie {
 	
 	public LPAgencie clone()
 	{
+		LPAgencie object = new LPAgencie();
+    	
         try {
-        	LPAgencie object = new LPAgencie();
-        	
         	object.name = this.name;
         	object.URL = this.URL;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.name != null)
+			{
+				object.put("name", this.name);
+			}
+			
+			if(this.URL != null)
+			{
+				object.put("url", this.URL);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

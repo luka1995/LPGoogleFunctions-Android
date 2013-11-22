@@ -52,16 +52,15 @@ public class LPPlacesAutocomplete {
 	
 	public LPPlacesAutocomplete clone()
 	{
+		LPPlacesAutocomplete object = new LPPlacesAutocomplete();
+    	
         try {
-        	LPPlacesAutocomplete object = new LPPlacesAutocomplete();
-        	
         	object.predictions = this.predictions;
         	object.statusCode = this.statusCode;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
 	}
 }

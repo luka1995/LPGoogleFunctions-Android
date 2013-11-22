@@ -135,16 +135,31 @@ public class LPPolyline {
 	
 	public LPPolyline clone()
 	{
+		LPPolyline object = new LPPolyline();
+    	
         try {
-        	LPPolyline object = new LPPolyline();
-        	
         	object.pointsString = this.pointsString;
         	object.pointsArray = this.pointsArray;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.pointsString != null)
+			{
+				object.put("points", this.pointsString);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }

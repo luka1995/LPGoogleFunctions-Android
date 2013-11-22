@@ -79,10 +79,10 @@ public class LPLeg {
 			if(jsonObject.has("steps"))
 			{
 				this.steps = new ArrayList<LPStep>();
-				JSONArray steps = jsonObject.getJSONArray("steps");
-				for(int i=0; i<steps.length(); i++)
+				JSONArray stepsArray = jsonObject.getJSONArray("steps");
+				for(int i=0; i<stepsArray.length(); i++)
 				{
-					LPStep step = new LPStep(steps.getJSONObject(i));
+					LPStep step = new LPStep(stepsArray.getJSONObject(i));
 					
 					this.steps.add(step);
 				}
@@ -94,9 +94,9 @@ public class LPLeg {
 	
 	public LPLeg clone()
 	{
+		LPLeg object = new LPLeg();
+    	
         try {
-        	LPLeg object = new LPLeg();
-        	
         	object.arrivalTime = this.arrivalTime;
         	object.departureTime = this.departureTime;
         	object.distance = this.distance;
@@ -106,11 +106,73 @@ public class LPLeg {
         	object.startAddress = this.startAddress;
         	object.startLocation = this.startLocation;
         	object.steps = this.steps;
-
-        	return object;
         } catch (Exception e) {
         	e.printStackTrace();
-        	return null;
         }
+        
+        return object;
+	}
+	
+	public JSONObject getJSONObject()
+	{
+		JSONObject object = new JSONObject();
+		
+		try {
+			if(this.arrivalTime != null)
+			{
+				object.put("arrival_time", this.arrivalTime.getJSONObject());
+			}
+			
+			if(this.departureTime != null)
+			{
+				object.put("departure_time", this.departureTime.getJSONObject());
+			}
+			
+			if(this.distance != null)
+			{
+				object.put("distance", this.distance.getJSONObject());
+			}
+			
+			if(this.duration != null)
+			{
+				object.put("duration", this.duration.getJSONObject());
+			}
+			
+			if(this.endAddress != null)
+			{
+				object.put("end_address", this.endAddress);
+			}
+			
+			if(this.endLocation != null)
+			{
+				object.put("end_location", this.endLocation.getJSONObject());
+			}
+			
+			if(this.startAddress != null)
+			{
+				object.put("start_address", this.startAddress);
+			}
+			
+			if(this.startLocation != null)
+			{
+				object.put("start_location", this.startLocation.getJSONObject());
+			}
+			
+			if(this.steps != null)
+			{
+				JSONArray stepsArray = new JSONArray();
+				for(int i=0; i<this.steps.size(); i++)
+				{
+					JSONObject step = this.steps.get(i).getJSONObject();
+					
+					stepsArray.put(step);
+				}
+				object.put("steps", stepsArray);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return object;
 	}
 }
