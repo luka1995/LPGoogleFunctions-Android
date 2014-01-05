@@ -167,7 +167,7 @@ The Places Photo service is a read-only API that allows you to easily add high q
 public void loadPlacePhotoForReference(String reference, int maxHeight, int maxWidth, final PlacePhotoListener responseHandler)
 ```
 
-##Uses Libraries:
+##Uses Libraries
 
 * AsyncHttpClient 1.4.3
 
