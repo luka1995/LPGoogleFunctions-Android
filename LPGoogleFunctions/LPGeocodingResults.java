@@ -33,16 +33,15 @@ public class LPGeocodingResults {
 			{
 				this.results = new ArrayList<LPPlaceDetails>();
 				JSONArray results = jsonObject.getJSONArray("results");
-				for(int i=0; i<results.length(); i++)
-				{
+				
+				for (int i=0; i<results.length(); i++) {
 					LPPlaceDetails placeDetails = new LPPlaceDetails(results.getJSONObject(i));
 					
 					this.results.add(placeDetails);
 				}
 			}
 			
-			if(jsonObject.has("status"));
-			{
+			if (jsonObject.has("status")) {
 				this.statusCode = jsonObject.getString("status");
 			}
 		} catch (JSONException e) {

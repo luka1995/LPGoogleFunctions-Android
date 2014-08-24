@@ -30,25 +30,22 @@ public class LPPlaceDetailsResults {
 	public LPPlaceDetailsResults(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("html_attributions"))
-			{
+			if (jsonObject.has("html_attributions")) {
 				this.htmlAttributions = new ArrayList<String>();
 				JSONArray htmlAttributions = jsonObject.getJSONArray("html_attributions");
-				for(int i=0; i<htmlAttributions.length(); i++)
-				{
+				
+				for (int i=0; i<htmlAttributions.length(); i++) {
 					String att = htmlAttributions.getString(i);
 					
 					this.htmlAttributions.add(att);
 				}
 			}
 			
-			if(jsonObject.has("result"))
-			{
+			if (jsonObject.has("result")) {
 				this.result = new LPPlaceDetails(jsonObject.getJSONObject("result"));
 			}
 			
-			if(jsonObject.has("status"))
-			{
+			if (jsonObject.has("status")) {
 				this.statusCode = jsonObject.getString("status");
 			}
 		} catch (JSONException e) {

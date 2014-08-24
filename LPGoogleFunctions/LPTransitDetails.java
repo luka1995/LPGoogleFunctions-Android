@@ -31,18 +31,15 @@ public class LPTransitDetails {
 	public LPTransitDetails(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("arrival_stop"))
-			{
+			if (jsonObject.has("arrival_stop")) {
 				this.arrivalStop = new LPStop(jsonObject.getJSONObject("arrival_stop"));
 			}
 			
-			if(jsonObject.has("arrival_time"))
-			{
+			if (jsonObject.has("arrival_time")) {
 				this.arrivalTime = new LPTime(jsonObject.getJSONObject("arrival_time"));
 			}
 			
-			if(jsonObject.has("departure_stop"))
-			{
+			if (jsonObject.has("departure_stop")) {
 				this.departureStop = new LPStop(jsonObject.getJSONObject("departure_stop"));
 			}
 			
@@ -51,8 +48,7 @@ public class LPTransitDetails {
 				this.departureTime = new LPTime(jsonObject.getJSONObject("departure_time"));
 			}
 			
-			if(jsonObject.has("headsign"))
-			{
+			if (jsonObject.has("headsign")) {
 				this.headsign = jsonObject.getString("headsign");
 			}
 			
@@ -61,8 +57,7 @@ public class LPTransitDetails {
 				this.line = new LPLine(jsonObject.getJSONObject("line"));
 			}
 			
-			if(jsonObject.has("num_stops"))
-			{
+			if (jsonObject.has("num_stops")) {
 				this.numStops = jsonObject.getInt("num_stops");
 			}
 		} catch (JSONException e) {
@@ -94,13 +89,11 @@ public class LPTransitDetails {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.arrivalStop != null)
-			{
+			if (this.arrivalStop != null) {
 				object.put("arrival_stop", this.arrivalStop.getJSONObject());
 			}
 			
-			if(this.arrivalTime != null)
-			{
+			if (this.arrivalTime != null) {
 				object.put("arrival_time", this.arrivalTime.getJSONObject());
 			}
 			
@@ -109,19 +102,15 @@ public class LPTransitDetails {
 				object.put("departure_stop", this.departureStop.getJSONObject());
 			}
 			
-			if(this.departureTime != null)
-			{
+			if (this.departureTime != null) {
 				object.put("departure_time", this.departureTime.getJSONObject());
 			}
 			
-			if(this.headsign != null)
-			{
+			if (this.headsign != null) {
 				object.put("headsign", this.headsign);
 			}
-			
-			
-			if(this.line != null)
-			{
+
+			if (this.line != null) {
 				object.put("line", this.line.getJSONObject());
 			}
 			

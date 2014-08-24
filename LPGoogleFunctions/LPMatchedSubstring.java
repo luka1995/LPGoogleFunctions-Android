@@ -26,13 +26,11 @@ public class LPMatchedSubstring {
 	public LPMatchedSubstring(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("length"))
-			{
+			if (jsonObject.has("length")) {
 				this.length = jsonObject.getInt("length");
 			}
 			
-			if(jsonObject.has("offset"))
-			{
+			if (jsonObject.has("offset")) {
 				this.offset = jsonObject.getInt("offset");
 			}
 		} catch (JSONException e) {

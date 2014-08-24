@@ -18,10 +18,10 @@ public class LPStep {
 	
 	public static enum LPGoogleDirectionsTravelMode
 	{
-		driving,
-		walking,
-		bicycling,
-		transit
+		LPGoogleDirectionsTravelModeDriving,
+		LPGoogleDirectionsTravelModeWalking,
+		LPGoogleDirectionsTravelModeBicycling,
+		LPGoogleDirectionsTravelModeTransit
 	};
 	
 	public String maneuver;
@@ -52,60 +52,50 @@ public class LPStep {
 	public LPStep(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("maneuver"))
-			{
+			if (jsonObject.has("maneuver")) {
 				this.maneuver = jsonObject.getString("maneuver");
 			}
 			
-			if(jsonObject.has("distance"))
-			{
+			if (jsonObject.has("distance")) {
 				this.distance = new LPDistance(jsonObject.getJSONObject("distance"));
 			}
 			
-			if(jsonObject.has("duration"))
-			{
+			if (jsonObject.has("duration")) {
 				this.duration = new LPDuration(jsonObject.getJSONObject("duration"));
 			}
 			
-			if(jsonObject.has("end_location"))
-			{
+			if (jsonObject.has("end_location")) {
 				this.endLocation = new LPLocation(jsonObject.getJSONObject("end_location"));
 			}
 			
-			if(jsonObject.has("html_instructions"))
-			{
+			if (jsonObject.has("html_instructions")) {
 				this.htmlInstructions = jsonObject.getString("html_instructions");
 			}
 			
-			if(jsonObject.has("polyline"))
-			{
+			if (jsonObject.has("polyline")) {
 				this.polyline = new LPPolyline(jsonObject.getJSONObject("polyline"));
 			}
 			
-			if(jsonObject.has("start_location"))
-			{
+			if (jsonObject.has("start_location")) {
 				this.startLocation = new LPLocation(jsonObject.getJSONObject("start_location"));
 			}
 
-			if(jsonObject.has("travel_mode"))
-			{
+			if (jsonObject.has("travel_mode")) {
 				this.travelMode = LPStep.getDirectionsTravelModeFromString(jsonObject.getString("travel_mode"));
 			}
 			
-			if(jsonObject.has("steps"))
-			{
+			if (jsonObject.has("steps")) {
 				this.subSteps = new ArrayList<LPStep>();
 				JSONArray subSteps = jsonObject.getJSONArray("steps");
-				for(int i=0; i<subSteps.length(); i++)
-				{
+				
+				for (int i=0; i<subSteps.length(); i++) {
 					LPStep step = new LPStep(subSteps.getJSONObject(i));
 					
 					this.subSteps.add(step);
 				}
 			}
 			
-			if(jsonObject.has("transit_details"))
-			{
+			if (jsonObject.has("transit_details")) {
 				this.transitDetails = new LPTransitDetails(jsonObject.getJSONObject("transit_details"));
 			}
 		} catch (JSONException e) {
@@ -142,55 +132,47 @@ public class LPStep {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.maneuver != null)
-			{
+			if (this.maneuver != null) {
 				object.put("maneuver", this.maneuver);
 			}
 			
-			if(this.distance != null)
-			{
+			if (this.distance != null) {
 				object.put("distance", this.distance.getJSONObject());
 			}
 			
-			if(this.duration != null)
-			{
+			if (this.duration != null) {
 				object.put("duration", this.duration.getJSONObject());
 			}
 			
-			if(this.endLocation != null)
-			{
+			if (this.endLocation != null) {
 				object.put("end_location", this.endLocation.getJSONObject());
 			}
 			
-			if(this.htmlInstructions != null)
-			{
+			if (this.htmlInstructions != null) {
 				object.put("html_instructions", this.htmlInstructions);
 			}
 			
-			if(this.polyline != null)
-			{
+			if (this.polyline != null) {
 				object.put("polyline", this.polyline.getJSONObject());
 			}
 			
-			if(this.startLocation != null)
-			{
+			if (this.startLocation != null) {
 				object.put("start_location", this.startLocation.getJSONObject());
 			}
 			
-			if(this.subSteps != null)
-			{
+			if (this.subSteps != null) {
 				JSONArray substepsArray = new JSONArray();
-				for(int i=0; i<this.subSteps.size(); i++)
-				{
+				
+				for (int i=0; i<this.subSteps.size(); i++) {
 					LPStep step = this.subSteps.get(i);
 					
 					substepsArray.put(step.getJSONObject());
 				}
+				
 				object.put("steps", substepsArray);
 			}
 			
-			if(this.transitDetails != null)
-			{
+			if (this.transitDetails != null) {
 				object.put("transit_details", this.transitDetails.getJSONObject());
 			}
 		} catch (Exception e) {
@@ -204,27 +186,25 @@ public class LPStep {
 	
 	public static LPGoogleDirectionsTravelMode getDirectionsTravelModeFromString(String string)
 	{
-	    if(string.equalsIgnoreCase(googleTravelModeDriving))
-	    {
-	        return LPGoogleDirectionsTravelMode.driving;
-	    } else if(string.equalsIgnoreCase(googleTravelModeBicycling)) {
-	        return LPGoogleDirectionsTravelMode.bicycling;
-	    } else if(string.equalsIgnoreCase(googleTravelModeTransit)) {
-	        return LPGoogleDirectionsTravelMode.transit;
+	    if (string.equalsIgnoreCase(googleTravelModeDriving)) {
+	        return LPGoogleDirectionsTravelMode.LPGoogleDirectionsTravelModeDriving;
+	    } else if (string.equalsIgnoreCase(googleTravelModeBicycling)) {
+	        return LPGoogleDirectionsTravelMode.LPGoogleDirectionsTravelModeBicycling;
+	    } else if (string.equalsIgnoreCase(googleTravelModeTransit)) {
+	        return LPGoogleDirectionsTravelMode.LPGoogleDirectionsTravelModeTransit;
 	    } else {
-	        return LPGoogleDirectionsTravelMode.walking;
+	        return LPGoogleDirectionsTravelMode.LPGoogleDirectionsTravelModeWalking;
 	    }
 	}
 	
 	public static String getDirectionsTravelMode(LPGoogleDirectionsTravelMode travelMode)
 	{
-	    switch (travelMode)
-	    {
-        	case driving:
+	    switch (travelMode) {
+        	case LPGoogleDirectionsTravelModeDriving:
         		return googleTravelModeDriving;
-        	case bicycling:
+        	case LPGoogleDirectionsTravelModeBicycling:
         		return googleTravelModeBicycling;
-        	case transit:
+        	case LPGoogleDirectionsTravelModeTransit:
         		return googleTravelModeTransit;
         	default:
         		return googleTravelModeWalking;

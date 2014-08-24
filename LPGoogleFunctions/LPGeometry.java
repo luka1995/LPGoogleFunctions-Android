@@ -26,13 +26,11 @@ public class LPGeometry {
 	public LPGeometry(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("location"))
-			{
+			if (jsonObject.has("location")) {
 				this.location = new LPLocation(jsonObject.getJSONObject("location"));
 			}
 			
-			if(jsonObject.has("viewport"))
-			{
+			if (jsonObject.has("viewport")) {
 				this.viewport = new LPBounds(jsonObject.getJSONObject("viewport"));
 			}
 		} catch (JSONException e) {
@@ -59,13 +57,11 @@ public class LPGeometry {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.location != null)
-			{
+			if (this.location != null) {
 				object.put("location", this.location.getJSONObject());
 			}
 			
-			if(this.viewport != null)
-			{
+			if (this.viewport != null) {
 				object.put("viewport", this.viewport.getJSONObject());
 			}
 		} catch (Exception e) {

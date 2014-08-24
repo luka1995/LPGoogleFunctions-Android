@@ -36,52 +36,43 @@ public class LPLeg {
 	public LPLeg(JSONObject jsonObject) 
 	{
 		try {
-			if(jsonObject.has("arrival_time"))
-			{
+			if (jsonObject.has("arrival_time")) {
 				this.arrivalTime = new LPTime(jsonObject.getJSONObject("arrival_time"));
 			}
 			
-			if(jsonObject.has("departure_time"))
-			{
+			if (jsonObject.has("departure_time")) {
 				this.departureTime = new LPTime(jsonObject.getJSONObject("departure_time"));
 			}
 			
-			if(jsonObject.has("distance"))
-			{
+			if (jsonObject.has("distance")) {
 				this.distance = new LPDistance(jsonObject.getJSONObject("distance"));
 			}
 
-			if(jsonObject.has("duration"))
-			{
+			if (jsonObject.has("duration")) {
 				this.duration = new LPDuration(jsonObject.getJSONObject("duration"));
 			}
 			
-			if(jsonObject.has("end_address"))
-			{
+			if (jsonObject.has("end_address")) {
 				this.endAddress = jsonObject.getString("end_address");
 			}
 
-			if(jsonObject.has("end_location"))
-			{
+			if (jsonObject.has("end_location")) {
 				this.endLocation = new LPLocation(jsonObject.getJSONObject("end_location"));
 			}
 			
-			if(jsonObject.has("start_address"))
-			{
+			if (jsonObject.has("start_address")) {
 				this.startAddress = jsonObject.getString("start_address");
 			}
 			
-			if(jsonObject.has("start_location"))
-			{
+			if (jsonObject.has("start_location")) {
 				this.startLocation = new LPLocation(jsonObject.getJSONObject("start_location"));
 			}
 			
-			if(jsonObject.has("steps"))
-			{
+			if (jsonObject.has("steps")) {
 				this.steps = new ArrayList<LPStep>();
 				JSONArray stepsArray = jsonObject.getJSONArray("steps");
-				for(int i=0; i<stepsArray.length(); i++)
-				{
+				
+				for (int i=0; i<stepsArray.length(); i++) {
 					LPStep step = new LPStep(stepsArray.getJSONObject(i));
 					
 					this.steps.add(step);
@@ -118,55 +109,47 @@ public class LPLeg {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.arrivalTime != null)
-			{
+			if (this.arrivalTime != null) {
 				object.put("arrival_time", this.arrivalTime.getJSONObject());
 			}
 			
-			if(this.departureTime != null)
-			{
+			if (this.departureTime != null) {
 				object.put("departure_time", this.departureTime.getJSONObject());
 			}
 			
-			if(this.distance != null)
-			{
+			if (this.distance != null) {
 				object.put("distance", this.distance.getJSONObject());
 			}
 			
-			if(this.duration != null)
-			{
+			if (this.duration != null) {
 				object.put("duration", this.duration.getJSONObject());
 			}
 			
-			if(this.endAddress != null)
-			{
+			if (this.endAddress != null) {
 				object.put("end_address", this.endAddress);
 			}
 			
-			if(this.endLocation != null)
-			{
+			if (this.endLocation != null) {
 				object.put("end_location", this.endLocation.getJSONObject());
 			}
 			
-			if(this.startAddress != null)
-			{
+			if (this.startAddress != null) {
 				object.put("start_address", this.startAddress);
 			}
 			
-			if(this.startLocation != null)
-			{
+			if (this.startLocation != null) {
 				object.put("start_location", this.startLocation.getJSONObject());
 			}
 			
-			if(this.steps != null)
-			{
+			if (this.steps != null) {
 				JSONArray stepsArray = new JSONArray();
-				for(int i=0; i<this.steps.size(); i++)
-				{
+				
+				for (int i=0; i<this.steps.size(); i++) {
 					JSONObject step = this.steps.get(i).getJSONObject();
 					
 					stepsArray.put(step);
 				}
+				
 				object.put("steps", stepsArray);
 			}
 		} catch (Exception e) {

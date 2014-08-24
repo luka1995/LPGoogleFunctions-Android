@@ -31,30 +31,26 @@ public class LPPlacePhoto {
 	public LPPlacePhoto(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("html_attributions"))
-			{
+			if (jsonObject.has("html_attributions")) {
 				this.htmlAttributions = new ArrayList<String>();
 				JSONArray htmlAttributions = jsonObject.getJSONArray("html_attributions");
-				for(int i=0; i<htmlAttributions.length(); i++)
-				{
+				
+				for (int i=0; i<htmlAttributions.length(); i++) {
 					String att = htmlAttributions.getString(i);
 					
 					this.htmlAttributions.add(att);
 				}
 			}
 			
-			if(jsonObject.has("height"))
-			{
+			if (jsonObject.has("height")) {
 				this.height = jsonObject.getInt("height");
 			}
 			
-			if(jsonObject.has("width"))
-			{
+			if (jsonObject.has("width")) {
 				this.width = jsonObject.getInt("width");
 			}
 			
-			if(jsonObject.has("photo_reference"))
-			{
+			if (jsonObject.has("photo_reference")) {
 				this.photoReference = jsonObject.getString("photo_reference");
 			}
 		} catch (JSONException e) {
@@ -83,17 +79,14 @@ public class LPPlacePhoto {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.htmlAttributions != null)
-			{
+			if (this.htmlAttributions != null) {
 				object.put("html_attributions", new JSONArray(this.htmlAttributions));
 			}
 			
 			object.put("height", this.height);
-			
 			object.put("width", this.width);
 			
-			if(this.photoReference != null)
-			{
+			if (this.photoReference != null) {
 				object.put("photo_reference", this.photoReference);
 			}
 		} catch (Exception e) {

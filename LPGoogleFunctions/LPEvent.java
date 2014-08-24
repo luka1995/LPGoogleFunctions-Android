@@ -27,18 +27,15 @@ public class LPEvent {
 	public LPEvent(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("event_id"))
-			{
+			if (jsonObject.has("event_id")) {
 				this.eventID = jsonObject.getString("event_id");
 			}
 			
-			if(jsonObject.has("summary"))
-			{
+			if (jsonObject.has("summary")) {
 				this.summary = jsonObject.getString("summary");
 			}
 			
-			if(jsonObject.has("url"))
-			{
+			if (jsonObject.has("url")) {
 				this.URL = jsonObject.getString("url");
 			}
 		} catch (JSONException e) {
@@ -66,18 +63,15 @@ public class LPEvent {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.eventID != null)
-			{
+			if (this.eventID != null) {
 				object.put("event_id", this.eventID);
 			}
 			
-			if(this.summary != null)
-			{
+			if (this.summary != null) {
 				object.put("summary", this.summary);
 			}
 			
-			if(this.URL != null)
-			{
+			if (this.URL != null) {
 				object.put("url", this.URL);
 			}
 		} catch (Exception e) {

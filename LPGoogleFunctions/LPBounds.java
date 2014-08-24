@@ -32,13 +32,11 @@ public class LPBounds {
 	public LPBounds(JSONObject jsonObject) 
 	{
 		try {
-			if(jsonObject.has("northeast"))
-			{
+			if (jsonObject.has("northeast")) {
 				this.northeast = new LPLocation(jsonObject.getJSONObject("northeast"));
 			}
 			
-			if(jsonObject.has("southwest"))
-			{
+			if (jsonObject.has("southwest")) {
 				this.southwest = new LPLocation(jsonObject.getJSONObject("southwest"));
 			}
 		} catch (JSONException e) {
@@ -65,13 +63,11 @@ public class LPBounds {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.northeast != null)
-			{
+			if (this.northeast != null) {
 				object.put("northeast", this.northeast.getJSONObject());
 			}
 			
-			if(this.southwest != null)
-			{
+			if (this.southwest != null) {
 				object.put("southwest", this.southwest.getJSONObject());
 			}
 		} catch (Exception e) {

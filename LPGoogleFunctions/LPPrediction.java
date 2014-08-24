@@ -58,56 +58,49 @@ public class LPPrediction {
 	public LPPrediction(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("name"))
-			{
+			if (jsonObject.has("name")) {
 				this.name = jsonObject.getString("name");
 			}
 			
-			if(jsonObject.has("id"))
-			{
+			if (jsonObject.has("id")) {
 				this.ID = jsonObject.getString("id");
 			}
 				
-			if(jsonObject.has("number"))
-			{
+			if (jsonObject.has("number")) {
 				this.number = jsonObject.getInt("number");
 			}
 			
-			if(jsonObject.has("reference"))
-			{
+			if (jsonObject.has("reference")) {
 				this.reference = jsonObject.getString("reference");
 			}
 			
-			if(jsonObject.has("types"))
-			{
+			if (jsonObject.has("types")) {
 				this.types = new ArrayList<String>();
 				JSONArray types = jsonObject.getJSONArray("types");
-				for(int i=0; i<types.length(); i++)
-				{
+				
+				for (int i=0; i<types.length(); i++) {
 					String type = types.getString(i);
 					
 					this.types.add(type);
 				}
 			}
 			
-			if(jsonObject.has("matched_substrings"))
-			{
+			if (jsonObject.has("matched_substrings")) {
 				this.matchedSubstrings = new ArrayList<LPMatchedSubstring>();
 				JSONArray matchedSubstrings = jsonObject.getJSONArray("matched_substrings");
-				for(int i=0; i<matchedSubstrings.length(); i++)
-				{
+				
+				for (int i=0; i<matchedSubstrings.length(); i++) {
 					LPMatchedSubstring matchedSubstring = new LPMatchedSubstring(matchedSubstrings.getJSONObject(i));
 					
 					this.matchedSubstrings.add(matchedSubstring);
 				}
 			}
 			
-			if(jsonObject.has("terms"))
-			{
+			if (jsonObject.has("terms")) {
 				this.terms = new ArrayList<LPTerm>();
 				JSONArray terms = jsonObject.getJSONArray("terms");
-				for(int i=0; i<terms.length(); i++)
-				{
+				
+				for (int i=0; i<terms.length(); i++) {
 					LPTerm term = new LPTerm(terms.getJSONObject(i));
 					
 					this.terms.add(term);
@@ -142,48 +135,45 @@ public class LPPrediction {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.name != null)
-			{
+			if (this.name != null) {
 				object.put("name", this.name);
 			}
 			
-			if(this.ID != null)
-			{
+			if (this.ID != null) {
 				object.put("id", this.ID);
 			}
+			
 			object.put("number", this.number);
 			
-			if(this.reference != null)
-			{
+			if (this.reference != null) {
 				object.put("reference", this.reference);
 			}
 			
-			if(this.types != null)
-			{
+			if (this.types != null) {
 				object.put("types", new JSONArray(this.types));
 			}
 			
-			if(this.matchedSubstrings != null)
-			{
+			if (this.matchedSubstrings != null) {
 				JSONArray matchedSubstringsArray = new JSONArray();
-				for(int i=0; i<this.matchedSubstrings.size(); i++)
-				{
+				
+				for (int i=0; i<this.matchedSubstrings.size(); i++) {
 					JSONObject substring = this.matchedSubstrings.get(i).getJSONObject();
 					
 					matchedSubstringsArray.put(substring);
 				}
+				
 				object.put("matched_substrings", matchedSubstringsArray);
 			}
 			
-			if(this.terms != null)
-			{
+			if (this.terms != null) {
 				JSONArray termsArray = new JSONArray();
-				for(int i=0; i<this.terms.size(); i++)
-				{
+				
+				for (int i=0; i<this.terms.size(); i++) {
 					JSONObject term = this.terms.get(i).getJSONObject();
 					
 					termsArray.put(term);
 				}
+				
 				object.put("terms", termsArray);
 			}
 		} catch (Exception e) {
@@ -197,24 +187,23 @@ public class LPPrediction {
 	
 	public static LPGooglePlaceType getGooglePlaceTypeFromString(String type)
 	{
-	    if(type.equals(PLACE_TYPE_GEOCODE))
-	    {
+	    if (type.equals(PLACE_TYPE_GEOCODE)) {
 	        return LPGooglePlaceType.LPGooglePlaceTypeGeocode;
-	    } else if(type.equals(PLACE_TYPE_ESTABLISHMENT)) {
+	    } else if (type.equals(PLACE_TYPE_ESTABLISHMENT)) {
 	        return LPGooglePlaceType.LPGooglePlaceTypeEstablishment;
-	    } else if(type.equals(PLACE_TYPE_LOCALITY)) {
+	    } else if (type.equals(PLACE_TYPE_LOCALITY)) {
 	        return LPGooglePlaceType.LPGooglePlaceTypeLocality;
-	    } else if(type.equals(PLACE_TYPE_SUBLOCALITY)) {
+	    } else if (type.equals(PLACE_TYPE_SUBLOCALITY)) {
 	        return LPGooglePlaceType.LPGooglePlaceTypeSublocality;
-	    } else if(type.equals(PLACE_TYPE_POSTAL_CODE)) {
+	    } else if (type.equals(PLACE_TYPE_POSTAL_CODE)) {
 	        return LPGooglePlaceType.LPGooglePlaceTypePostalCode;
-	    } else if(type.equals(PLACE_TYPE_COUNTRY)) {
+	    } else if (type.equals(PLACE_TYPE_COUNTRY)) {
 	        return LPGooglePlaceType.LPGooglePlaceTypeCountry;
-	    } else if(type.equals(PLACE_TYPE_ADMINISTRATIVE_AREA1)) {
+	    } else if (type.equals(PLACE_TYPE_ADMINISTRATIVE_AREA1)) {
 	        return LPGooglePlaceType.LPGooglePlaceTypeAdministrativeArea1;
-	    } else if(type.equals(PLACE_TYPE_ADMINISTRATIVE_AREA2)) {
+	    } else if (type.equals(PLACE_TYPE_ADMINISTRATIVE_AREA2)) {
 	        return LPGooglePlaceType.LPGooglePlaceTypeAdministrativeArea2;
-	    } else if(type.equals(PLACE_TYPE_ADMINISTRATIVE_AREA3)) {
+	    } else if (type.equals(PLACE_TYPE_ADMINISTRATIVE_AREA3)) {
 	        return LPGooglePlaceType.LPGooglePlaceTypeAdministrativeArea3;
 	    } else {
 	        return LPGooglePlaceType.LPGooglePlaceTypeUnknown;
@@ -223,23 +212,23 @@ public class LPPrediction {
 
 	public static String getStringFromGooglePlaceType(LPGooglePlaceType type)
 	{
-	    if(type==LPGooglePlaceType.LPGooglePlaceTypeGeocode) {
+	    if (type==LPGooglePlaceType.LPGooglePlaceTypeGeocode) {
 	        return PLACE_TYPE_GEOCODE;
-	    } else if(type.equals(LPGooglePlaceType.LPGooglePlaceTypeEstablishment)) {
+	    } else if (type.equals(LPGooglePlaceType.LPGooglePlaceTypeEstablishment)) {
 	        return PLACE_TYPE_ESTABLISHMENT;
-	    } else if(type.equals(LPGooglePlaceType.LPGooglePlaceTypeLocality)) {
+	    } else if (type.equals(LPGooglePlaceType.LPGooglePlaceTypeLocality)) {
 	        return PLACE_TYPE_LOCALITY;
-	    } else if(type.equals(LPGooglePlaceType.LPGooglePlaceTypeSublocality)) {
+	    } else if (type.equals(LPGooglePlaceType.LPGooglePlaceTypeSublocality)) {
 	        return PLACE_TYPE_SUBLOCALITY;
-	    } else if(type.equals(LPGooglePlaceType.LPGooglePlaceTypePostalCode)) {
+	    } else if (type.equals(LPGooglePlaceType.LPGooglePlaceTypePostalCode)) {
 	        return PLACE_TYPE_POSTAL_CODE;
-	    } else if(type.equals(LPGooglePlaceType.LPGooglePlaceTypeCountry)) {
+	    } else if (type.equals(LPGooglePlaceType.LPGooglePlaceTypeCountry)) {
 	        return PLACE_TYPE_COUNTRY;
-	    } else if(type.equals(LPGooglePlaceType.LPGooglePlaceTypeAdministrativeArea1)) {
+	    } else if (type.equals(LPGooglePlaceType.LPGooglePlaceTypeAdministrativeArea1)) {
 	        return PLACE_TYPE_ADMINISTRATIVE_AREA1;
-	    } else if(type.equals(LPGooglePlaceType.LPGooglePlaceTypeAdministrativeArea2)) {
+	    } else if (type.equals(LPGooglePlaceType.LPGooglePlaceTypeAdministrativeArea2)) {
 	        return PLACE_TYPE_ADMINISTRATIVE_AREA2;
-	    } else if(type.equals(LPGooglePlaceType.LPGooglePlaceTypeAdministrativeArea3)) {
+	    } else if (type.equals(LPGooglePlaceType.LPGooglePlaceTypeAdministrativeArea3)) {
 	        return PLACE_TYPE_ADMINISTRATIVE_AREA3;
 	    } else {
 	        return "";

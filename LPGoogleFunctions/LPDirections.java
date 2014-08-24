@@ -13,7 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import LPGoogleFunctions.LPStep.LPGoogleDirectionsTravelMode;
-import LPGoogleFunctions.LPStep.*;
 
 public class LPDirections {
 
@@ -38,7 +37,7 @@ public class LPDirections {
 		
 	public ArrayList<LPRoute> routes = null;
 	public String statusCode = null;
-	public LPGoogleDirectionsTravelMode requestTravelMode = LPGoogleDirectionsTravelMode.bicycling;
+	public LPGoogleDirectionsTravelMode requestTravelMode = LPGoogleDirectionsTravelMode.LPGoogleDirectionsTravelModeDriving;
 	
 	// Class
 	
@@ -50,12 +49,11 @@ public class LPDirections {
 	public LPDirections(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("routes"))
-			{
+			if (jsonObject.has("routes")) {
 				this.routes = new ArrayList<LPRoute>();
 				JSONArray routes = jsonObject.getJSONArray("routes");
-				for(int i=0; i<routes.length(); i++)
-				{
+				
+				for (int i=0; i<routes.length(); i++) {
 					LPRoute route = new LPRoute(routes.getJSONObject(i));
 					route.number = i;
 					
@@ -63,8 +61,7 @@ public class LPDirections {
 				}
 			}
 			
-			if(jsonObject.has("status"))
-			{
+			if (jsonObject.has("status")) {
 				this.statusCode = jsonObject.getString("status");
 			}
 		} catch (JSONException e) {
@@ -93,20 +90,19 @@ public class LPDirections {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.routes != null)
-			{
+			if (this.routes != null) {
 				JSONArray routesArray = new JSONArray();
-				for(int i=0; i<this.routes.size(); i++)
-				{
+				
+				for (int i=0; i<this.routes.size(); i++) {
 					JSONObject route = this.routes.get(i).getJSONObject();
 					
 					routesArray.put(route);
 				}
+				
 				object.put("routes", routesArray);
 			}
 			
-			if(this.statusCode != null)
-			{
+			if (this.statusCode != null) {
 				object.put("status", this.statusCode);
 			}
 		} catch (Exception e) {

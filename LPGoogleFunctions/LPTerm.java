@@ -26,13 +26,11 @@ public class LPTerm {
 	public LPTerm(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("value"))
-			{
+			if (jsonObject.has("value")) {
 				this.value = jsonObject.getString("value");
 			}
 			
-			if(jsonObject.has("offset"))
-			{
+			if (jsonObject.has("offset")) {
 				this.offset = jsonObject.getInt("offset");
 			}
 		} catch (JSONException e) {

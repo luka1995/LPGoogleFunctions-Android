@@ -32,13 +32,11 @@ public class LPLocation {
 	public LPLocation(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("lat"))
-			{
+			if (jsonObject.has("lat")) {
 				this.latitude = jsonObject.getDouble("lat");
 			}
 			
-			if(jsonObject.has("lng"))
-			{
+			if (jsonObject.has("lng")) {
 				this.longitude = jsonObject.getDouble("lng");
 			}
 		} catch (JSONException e) {

@@ -26,13 +26,11 @@ public class LPAgencie {
 	public LPAgencie(JSONObject jsonObject) 
 	{
 		try {
-			if(jsonObject.has("name"))
-			{
+			if (jsonObject.has("name")) {
 				this.name = jsonObject.getString("name");
 			}
 			
-			if(jsonObject.has("url"))
-			{
+			if (jsonObject.has("url")) {
 				this.URL = jsonObject.getString("url");
 			}
 		} catch (JSONException e) {
@@ -59,13 +57,11 @@ public class LPAgencie {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.name != null)
-			{
+			if (this.name != null) {
 				object.put("name", this.name);
 			}
 			
-			if(this.URL != null)
-			{
+			if (this.URL != null) {
 				object.put("url", this.URL);
 			}
 		} catch (Exception e) {

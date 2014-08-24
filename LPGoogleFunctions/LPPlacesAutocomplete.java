@@ -29,20 +29,18 @@ public class LPPlacesAutocomplete {
 	public LPPlacesAutocomplete(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("predictions"))
-			{
+			if (jsonObject.has("predictions")) {
 				this.predictions = new ArrayList<LPPrediction>();
 				JSONArray predictions = jsonObject.getJSONArray("predictions");
-				for(int i=0; i<predictions.length(); i++)
-				{
+				
+				for (int i=0; i<predictions.length(); i++) {
 					LPPrediction prediction = new LPPrediction(predictions.getJSONObject(i));
 					
 					this.predictions.add(prediction);
 				}
 			}
 			
-			if(jsonObject.has("status"))
-			{
+			if (jsonObject.has("status")) {
 				this.statusCode = jsonObject.getString("status");
 			}
 		} catch (JSONException e) {

@@ -58,14 +58,13 @@ public class LPGeocodingFilter {
 	
 	public static String getGeocodingFilter(LPGeocodingFilterMode filter)
 	{
-	    if(filter==LPGeocodingFilterMode.LPGeocodingFilterRoute)
-	    {
+	    if (filter==LPGeocodingFilterMode.LPGeocodingFilterRoute) {
 	        return geocodingFilterRoute;
-	    } else if(filter==LPGeocodingFilterMode.LPGeocodingFilterPostal_code) {
+	    } else if (filter==LPGeocodingFilterMode.LPGeocodingFilterPostal_code) {
 	        return geocodingFilterPostal_code;
-	    } else if(filter==LPGeocodingFilterMode.LPGeocodingFilterLocality) {
+	    } else if (filter==LPGeocodingFilterMode.LPGeocodingFilterLocality) {
 	        return geocodingFilterLocality;
-	    } else if(filter==LPGeocodingFilterMode.LPGeocodingFilterAdministrative_area) {
+	    } else if (filter==LPGeocodingFilterMode.LPGeocodingFilterAdministrative_area) {
 	        return geocodingFilterAdministrative_area;
 	    } else {
 	        return geocodingFilterCountry;

@@ -28,8 +28,7 @@ public class LPPolyline {
 	public LPPolyline(JSONObject jsonObject) 
 	{
 		try {
-			if(jsonObject.has("points"))
-			{
+			if (jsonObject.has("points")) {
 				this.pointsString = jsonObject.getString("points");
 				
 				this.pointsArray = decodePolylineOfGoogleMaps(this.pointsString);
@@ -49,8 +48,7 @@ public class LPPolyline {
 		float lat = 0.0f;
 		float lng = 0.0f;
 
-		while (index < length) 
-		{
+		while (index < length) {
 			// Temorary variable to hold each ASCII byte.
 		    int b = 0;
 		    
@@ -152,8 +150,7 @@ public class LPPolyline {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.pointsString != null)
-			{
+			if (this.pointsString != null) {
 				object.put("points", this.pointsString);
 			}
 		} catch (Exception e) {

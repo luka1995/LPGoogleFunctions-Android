@@ -50,104 +50,88 @@ public class LPPlaceDetails {
 	public LPPlaceDetails(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("address_components"))
-			{
+			if (jsonObject.has("address_components")) {
 				this.addressComponents = new ArrayList<LPAddressComponent>();
 				JSONArray components = jsonObject.getJSONArray("address_components");
 
-				for(int i=0; i<components.length(); i++)
-				{
+				for (int i=0; i<components.length(); i++) {
 					LPAddressComponent component = new LPAddressComponent(components.getJSONObject(i));
 					
 					this.addressComponents.add(component);
 				}
 			}
 			
-			if(jsonObject.has("adr_address"))
-			{
+			if (jsonObject.has("adr_address")) {
 				this.adrAddress = jsonObject.getString("adr_address");
 			}
 			
-			if(jsonObject.has("formatted_address"))
-			{
+			if (jsonObject.has("formatted_address")) {
 				this.formattedAddress = jsonObject.getString("formatted_address");
 			}
 			
-			if(jsonObject.has("geometry"))
-			{
+			if (jsonObject.has("geometry")) {
 				this.geometry = new LPGeometry(jsonObject.getJSONObject("geometry"));
 			}
 			
-			if(jsonObject.has("icon"))
-			{
+			if (jsonObject.has("icon")) {
 				this.icon = jsonObject.getString("icon");
 			}
 			
-			if(jsonObject.has("id"))
-			{
+			if (jsonObject.has("id")) {
 				this.ID = jsonObject.getString("id");
 			}
 			
-			if(jsonObject.has("name"))
-			{
+			if (jsonObject.has("name")) {
 				this.name = jsonObject.getString("name");
 			}
 			
-			if(jsonObject.has("reference"))
-			{
+			if (jsonObject.has("reference")) {
 				this.reference = jsonObject.getString("reference");
 			}
 			
-			if(jsonObject.has("types"))
-			{
+			if (jsonObject.has("types")) {
 				this.types = new ArrayList<String>();
 				JSONArray types = jsonObject.getJSONArray("types");
-				for(int i=0; i<types.length(); i++)
-				{
+				
+				for (int i=0; i<types.length(); i++) {
 					String type = types.getString(i);
 					
 					this.types.add(type);
 				}
 			}
 			
-			if(jsonObject.has("url"))
-			{
+			if (jsonObject.has("url")) {
 				this.URL = jsonObject.getString("url");
 			}
 			
-			if(jsonObject.has("vicinity"))
-			{
+			if (jsonObject.has("vicinity")) {
 				this.vicinity = jsonObject.getString("vicinity");
 			}
 			
-			if(jsonObject.has("photos"))
-			{
+			if (jsonObject.has("photos")) {
 				this.photos = new ArrayList<LPPlacePhoto>();
 				JSONArray photos = jsonObject.getJSONArray("photos");
-				for(int i=0; i<photos.length(); i++)
-				{
+				
+				for (int i=0; i<photos.length(); i++) {
 					LPPlacePhoto photo = new LPPlacePhoto(photos.getJSONObject(i));
 					
 					this.photos.add(photo);
 				}
 			}
 			
-			if(jsonObject.has("price_level"))
-			{
+			if (jsonObject.has("price_level")) {
 				this.priceLevel = jsonObject.getInt("price_level");
 			}
 			
-			if(jsonObject.has("rating"))
-			{
+			if (jsonObject.has("rating")) {
 				this.rating = (float)jsonObject.getDouble("rating");
 			}
 			
-			if(jsonObject.has("events"))
-			{
+			if (jsonObject.has("events")) {
 				this.events = new ArrayList<LPEvent>();
 				JSONArray events = jsonObject.getJSONArray("events");
-				for(int i=0; i<events.length(); i++)
-				{
+				
+				for (int i=0; i<events.length(); i++) {
 					LPEvent event = new LPEvent(events.getJSONObject(i));
 					
 					this.events.add(event);
@@ -190,15 +174,15 @@ public class LPPlaceDetails {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.addressComponents != null)
-			{
+			if (this.addressComponents != null) {
 				JSONArray addressComponentsArray = new JSONArray();
-				for(int i=0; i<this.addressComponents.size(); i++)
-				{
+				
+				for (int i=0; i<this.addressComponents.size(); i++) {
 					JSONObject component = this.addressComponents.get(i).getJSONObject();
 					
 					addressComponentsArray.put(component);
 				}
+				
 				object.put("address_components", addressComponentsArray);
 			}
 			
@@ -210,37 +194,35 @@ public class LPPlaceDetails {
 			object.put("name", this.name);
 			object.put("reference", this.reference);
 			
-			if(this.types != null)
-			{
+			if (this.types != null) {
 				JSONArray typesArray = new JSONArray();
-				for(int i=0; i<this.types.size(); i++)
-				{
+				
+				for (int i=0; i<this.types.size(); i++) {
 					String string = this.types.get(i).toString();
 					
 					typesArray.put(string);
 				}
+				
 				object.put("types", typesArray);
 			}
 			
-			if(this.URL != null)
-			{
+			if (this.URL != null) {
 				object.put("url", this.URL);
 			}
 			
-			if(this.vicinity != null)
-			{
+			if (this.vicinity != null) {
 				object.put("vicinity", this.vicinity);
 			}
 			
-			if(this.photos != null)
-			{
+			if (this.photos != null) {
 				JSONArray photosArray = new JSONArray();
-				for(int i=0; i<this.photos.size(); i++)
-				{
+				
+				for (int i=0; i<this.photos.size(); i++) {
 					JSONObject photo = this.photos.get(i).getJSONObject();
 					
 					photosArray.put(photo);
 				}
+				
 				object.put("photos", photosArray);
 			}
 			
@@ -248,15 +230,15 @@ public class LPPlaceDetails {
 			
 			object.put("rating", this.rating);
 			
-			if(this.events != null)
-			{
+			if (this.events != null) {
 				JSONArray eventsArray = new JSONArray();
-				for(int i=0; i<this.events.size(); i++)
-				{
+				
+				for (int i=0; i<this.events.size(); i++) {
 					JSONObject event = this.events.get(i).getJSONObject();
 					
 					eventsArray.put(event);
 				}
+				
 				object.put("events", eventsArray);
 			}
 		} catch (Exception e) {

@@ -30,22 +30,19 @@ public class LPAddressComponent {
 	public LPAddressComponent(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("long_name"))
-			{
+			if (jsonObject.has("long_name")) {
 				this.longName = jsonObject.getString("long_name");
 			}
 			
-			if(jsonObject.has("short_name"))
-			{
+			if (jsonObject.has("short_name")) {
 				this.shortName = jsonObject.getString("short_name");
 			}
 			
-			if(jsonObject.has("types"))
-			{
+			if (jsonObject.has("types")) {
 				this.types = new ArrayList<String>();
 				JSONArray typesArray = jsonObject.getJSONArray("types");
-				for(int i=0; i<typesArray.length(); i++)
-				{
+				
+				for (int i=0; i<typesArray.length(); i++) {
 					String type = typesArray.getString(i);
 
 					this.types.add(type);
@@ -76,25 +73,23 @@ public class LPAddressComponent {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.longName != null)
-			{
+			if (this.longName != null) {
 				object.put("long_name", this.longName);
 			}
 			
-			if(this.shortName != null)
-			{
+			if (this.shortName != null) {
 				object.put("short_name", this.shortName);
 			}
 			
-			if(this.types != null)
-			{
+			if (this.types != null) {
 				JSONArray typesArray = new JSONArray();
-				for(int i=0; i<this.types.size(); i++)
-				{
+				
+				for (int i=0; i<this.types.size(); i++) {
 					String string = this.types.get(i).toString();
 					
 					typesArray.put(string);
 				}
+				
 				object.put("types", typesArray);
 			}
 		} catch (Exception e) {

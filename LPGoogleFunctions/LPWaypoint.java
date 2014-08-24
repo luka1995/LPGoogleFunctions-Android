@@ -27,18 +27,15 @@ public class LPWaypoint {
 	public LPWaypoint(JSONObject jsonObject) 
 	{
 		try {
-			if(jsonObject.has("location"))
-			{
+			if (jsonObject.has("location")) {
 				this.location = new LPLocation(jsonObject.getJSONObject("location"));
 			}
 			
-			if(jsonObject.has("step_index"))
-			{
+			if (jsonObject.has("step_index")) {
 				this.stepIndex = jsonObject.getInt("step_index");
 			}
 			
-			if(jsonObject.has("step_interpolation"))
-			{
+			if (jsonObject.has("step_interpolation")) {
 				this.stepInterpolation = jsonObject.getDouble("step_interpolation");
 			}
 		} catch (JSONException e) {
@@ -66,8 +63,7 @@ public class LPWaypoint {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.location != null)
-			{
+			if (this.location != null) {
 				object.put("location", this.location.getJSONObject());
 			}
 			

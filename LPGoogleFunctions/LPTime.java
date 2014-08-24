@@ -27,18 +27,15 @@ public class LPTime {
 	public LPTime(JSONObject jsonObject) 
 	{
 		try {
-			if(jsonObject.has("text"))
-			{
+			if (jsonObject.has("text")) {
 				this.text = jsonObject.getString("text");
 			}
 			
-			if(jsonObject.has("time_zone"))
-			{
+			if (jsonObject.has("time_zone")) {
 				this.timeZone = jsonObject.getString("time_zone");
 			}
 			
-			if(jsonObject.has("value"))
-			{
+			if (jsonObject.has("value")) {
 				this.value = (float)jsonObject.getDouble("value");
 			}
 		} catch (JSONException e) {
@@ -66,13 +63,11 @@ public class LPTime {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.text != null)
-			{
+			if (this.text != null) {
 				object.put("text", this.text);
 			}
 			
-			if(this.timeZone != null)
-			{
+			if (this.timeZone != null) {
 				object.put("time_zone", this.timeZone);
 			}
 			

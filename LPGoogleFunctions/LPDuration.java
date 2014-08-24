@@ -26,13 +26,11 @@ public class LPDuration {
 	public LPDuration(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("text"))
-			{
+			if (jsonObject.has("text")) {
 				this.text = jsonObject.getString("text");
 			}
 			
-			if(jsonObject.has("value"))
-			{
+			if (jsonObject.has("value")) {
 				this.value = jsonObject.getInt("value");
 			}
 		} catch (JSONException e) {
@@ -59,8 +57,7 @@ public class LPDuration {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.text != null)
-			{
+			if (this.text != null) {
 				object.put("text", this.text);
 			}
 			

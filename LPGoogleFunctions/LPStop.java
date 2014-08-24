@@ -26,13 +26,11 @@ public class LPStop {
 	public LPStop(JSONObject jsonObject)
 	{
 		try {
-			if(jsonObject.has("location"))
-			{
+			if (jsonObject.has("location")) {
 				this.location = new LPLocation(jsonObject.getJSONObject("location"));
 			}
 			
-			if(jsonObject.has("name"))
-			{
+			if (jsonObject.has("name")) {
 				this.name = jsonObject.getString("name");
 			}
 		} catch (JSONException e) {
@@ -59,13 +57,11 @@ public class LPStop {
 		JSONObject object = new JSONObject();
 		
 		try {
-			if(this.location != null)
-			{
+			if (this.location != null) {
 				object.put("location", this.location.getJSONObject());
 			}
 			
-			if(this.name != null)
-			{
+			if (this.name != null) {
 				object.put("name", this.name);
 			}
 		} catch (Exception e) {
