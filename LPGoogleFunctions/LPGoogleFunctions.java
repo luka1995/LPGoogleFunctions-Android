@@ -931,7 +931,7 @@ public class LPGoogleFunctions {
 		self.loadPlacesAutocompleteForInput(input, offset, radius, location, placeType, countryRestriction, new LPGoogleFunctions.PlacesAutocompleteListener() {
 			@Override
 			public void willLoadPlacesAutocomplete() {
-				if (responseHandler != null) responseHandler.willLoadPlacesAutocompleteWithDetails();
+				
 			}
 
 			@Override
