@@ -82,7 +82,7 @@ public class LPMapImageMarker {
 		DecimalFormat df = new DecimalFormat("##.######");
 		df.setDecimalFormatSymbols(separator);
 		
-	    String string = String.format("size:%s|color:%s|label:%s|%s,%s", this.getSizeString(), this.getColorString(), this.label, df.format(this.location.latitude), df.format(this.location.longitude));
+	    String string = String.format("size:%s|color:%s|label:%s|%s,%s", this.getSizeString(), this.getColorString(), this.label, df.format(this.location.latitude), df.format(this.location.longitude)).replace("|", "%7C");
 
 	    return string;
 	}
