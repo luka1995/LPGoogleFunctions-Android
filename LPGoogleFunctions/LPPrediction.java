@@ -36,9 +36,9 @@ public class LPPrediction {
 	public static String PLACE_TYPE_SUBLOCALITY = "sublocality";
 	public static String PLACE_TYPE_POSTAL_CODE = "postal_code";
 	public static String PLACE_TYPE_COUNTRY = "country";
-	public static String PLACE_TYPE_ADMINISTRATIVE_AREA1 = "administrative_area1";
-	public static String PLACE_TYPE_ADMINISTRATIVE_AREA2 = "administrative_area2";
-	public static String PLACE_TYPE_ADMINISTRATIVE_AREA3 = "administrative_area3";
+	public static String PLACE_TYPE_ADMINISTRATIVE_AREA1 = "administrative_area_level_1";
+	public static String PLACE_TYPE_ADMINISTRATIVE_AREA2 = "administrative_area_level_2";
+	public static String PLACE_TYPE_ADMINISTRATIVE_AREA3 = "administrative_area_level_3";
 
 	public String name = null;
 	public String ID = null;
